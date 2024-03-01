@@ -1,0 +1,139 @@
+#!/bin/bash
+
+yellow="\033[0;33m"
+ungu="\033[0;35m"
+Red="\033[91;1m"
+Xark="\033[0m"
+BlueCyan="\033[5;36m"
+WhiteBe="\033[5;37m"
+GreenBe="\033[5;32m"
+YellowBe="\033[5;33m"
+BlueBe="\033[5;34m"
+# . Liner 
+function baris_panjang() {
+  echo -e "${BlueCyan} ———————————————————————————————————————————————${Xark}"
+}
+function Lunatic_Banner() {
+clear
+baris_panjang
+echo -e       "${ungu}                   NEWBIE STORE                 ${Xark}"
+baris_panjang
+}
+
+function Sc_Credit(){
+sleep 1
+baris_panjang
+echo -e       "${ungu}          Terimakasih sudah menggunakan-       ${Xark}"
+echo -e       "${ungu}         Script Credit By  NEWBIE STORE        ${Xark}"
+baris_panjang
+exit 1
+}
+
+duration=6
+frames=("██10%" "█████35%" "█████████65%" "█████████████80%" "█████████████████████90%" "█████████████████████████100%")
+
+# Menghitung jumlah frame
+num_frames=${#frames[@]}
+
+# Menghitung jumlah iterasi
+num_iterations=$((duration))
+
+# Fungsi untuk menampilkan animasi loading berwarna
+
+Loading_Animasi() {
+    for ((i = 0; i < num_iterations; i++)); do
+        clear
+        index=$((i % num_frames))
+        color_code=$((31 + i % 7))
+echo ""
+echo ""
+echo ""
+echo -e "\e[1;${color_code}m ${frames[$index]}\e[0m"
+sleep 0.5
+    done
+}
+
+# Menjalankan animasi loading
+
+# Menampilkan pesan setelah animasi selesai
+function Loading_Succes() {
+clear
+echo -e  "\033[5;32mSucces\033[0m"
+sleep 2
+clear
+}
+
+
+function Daftar_User_Vless() {
+grep -E "^#& " "/etc/xray/config.json" | cut -d ' ' -f 2-3 | column -t | sort | uniq
+
+}
+
+function change_vmess_quota() {
+clear
+baris_panjang
+echo -e "${Cyan} USERNAME ${Xark} "
+Daftar_User_Vless
+baris_panjang
+echo ""
+read -p "Input Username : " user
+baris_panjang
+  quota_file="/etc/vless/${user}"
+
+  # Validasi apakah file kuota sudah ada
+  if [ -e "$quota_file" ]; then
+    current_quota=$(cat "$quota_file")
+    echo ""
+    baris_panjang
+    echo -e "${Cyan} BEFORE ${Xark} "
+    echo ""
+    echo -e "${yellow} Username    : $user ${Xark} "
+    echo -e "${yellow} Quota       : $((current_quota / 1024 / 1024 / 1024)) GB ${Xark}"
+    echo ""
+    baris_panjang
+echo ""
+echo ""
+read -p "Input New Quota  : " new_quota
+echo -e ""
+Loading_Animasi
+Loading_Succes
+
+    # Validasi jika masukan kosong atau tidak valid
+
+    if [[ -z "$new_quota" || ! "$new_quota" =~ ^[0-9]+$ ]]; then
+baris_panjang
+echo -e "${Red} Wrong Input Methode ${Xark} "
+baris_panjang
+    else
+
+      # Konversi kuota ke byte
+      new_quota_bytes=$((new_quota * 1024 * 1024 * 1024))
+      echo "${new_quota_bytes}" > "${quota_file}"
+Lunatic_Banner
+baris_panjang
+echo -e "${GreenBe}Succesfully ${Xark} "
+echo -e ""
+echo -e "${Cyan} AFTER ${Xark} "
+echo -e ""
+echo -e "${yellow}New Quota: $new_quota GB ${Xark} "
+echo -e "${yellow}Username : $user ${Xark} "
+echo -e ""
+baris_panjang
+Sc_Credit
+
+      # Hapus entri lama dan tambahkan yang baru ke dalam database
+      DATADB=$(cat /etc/vless/.vless.db | grep "^###" | grep -w "${user}" | awk '{print $2}')
+      if [[ "${DATADB}" != '' ]]; then
+        sed -i "/\b${user}\b/d" /etc/vless/.vless.db
+      fi
+      echo "### ${user} ${exp} ${uuid} ${new_quota_bytes} ${iplimit}" >>/etc/vless/.vless.db
+
+      echo -e "${GreenBe}Database Update Succes. ${Xark} "
+    fi
+  else
+    echo -e "${Red}Quota is Wrong in ${Xark}${GreenBe}$user. ${Xark}"
+  fi
+}
+
+# Panggil fungsi untuk mengganti kuota VMess
+change_vmess_quota

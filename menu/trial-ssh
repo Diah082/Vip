@@ -1,0 +1,268 @@
+#!/bin/bash
+DF='\e[39m'
+Bold='\e[1m'
+Blink='\e[5m'
+yell='\e[33m'
+red='\e[31m'
+green='\e[32m'
+blue='\e[34m'
+PURPLE='\e[35m'
+cyan='\e[36m'
+Lred='\e[91m'
+Lgreen='\e[92m'
+Lyellow='\e[93m'
+NC='\e[0m'
+GREEN='\033[0;32m'
+ORANGE='\033[0;33m'
+LIGHT='\033[0;37m'
+grenbo="\e[92;1m"
+
+# Valid Script ARI
+GreenARI="\033[0;32m"
+yellow="\033[0;33m"
+Xark='\e[0m'
+BlueCyan='\e[5;36m'
+ungu="\033[0;35m"
+
+# . Liner 
+function baris_panjang() {
+  echo -e "${BlueCyan} ———————————————————————————————————————————————${Xark}"
+}
+function Lunatic_Banner() {
+clear
+baris_panjang
+echo -e       "${ungu}                   NEWBIE STORE                 ${Xark}"
+baris_panjang
+}
+function MODE_Banner() {
+baris_panjang
+echo -e       "${ungu}                    TRIAL SSH                   ${Xark}"
+baris_panjang
+}
+
+function Sc_Credit(){
+sleep 1
+baris_panjang
+echo -e       "${ungu}          Terimakasih sudah menggunakan-       ${Xark}"
+echo -e       "${ungu}         Script Credit By  NEWBIE STORE        ${Xark}"
+baris_panjang
+exit 1
+}
+# Menjalankan animasi loading
+loading() {
+  local pid=$1
+  local delay=0.1
+  local spin='-\|/'
+
+  while ps -p $pid > /dev/null; do
+    local temp=${spin#?}
+    printf "[%c] " "$spin"
+    local spin=$temp${spin%"$temp"}
+    sleep $delay
+    printf "\b\b\b\b\b\b"
+  done
+
+  printf "    \b\b\b\b"
+}
+# Menampilkan pesan setelah animasi selesai
+function Loading_Succes() {
+clear
+echo -e  "\033[5;32mSucces\033[0m"
+sleep 1
+clear
+}
+
+
+# Getting
+CHATID=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 3)
+KEY=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 2)
+export TIME="10"
+export URL="https://api.telegram.org/bot$KEY/sendMessage"
+ISP=$(curl -s ipinfo.io/org | cut -d " " -f 2-10 )
+CITY=$(curl -s ipinfo.io/city )
+domain=$(cat /etc/xray/domain)
+clear
+IP=$(curl -sS ipv4.icanhazip.com)
+Login=Trial-`</dev/urandom tr -dc X-Z0-9 | head -c4`
+Pass=1
+iplimit=50
+#limitip
+if [[ $iplimit -gt 0 ]]; then
+mkdir -p /etc/kyt/limit/ssh/ip/
+echo -e "$iplimit" > /etc/kyt/limit/ssh/ip/$Login
+else
+echo > /dev/null
+fi
+clear
+ISP=$(cat /etc/xray/isp)
+CITY=$(cat /etc/xray/city)
+clear
+exp=$(date -d "+${waktu_ekspirasi_menit} minutes" +"%Y-%m-%d %H:%M:%S")
+tgl=$(date -d "$masaaktif days" +"%d")
+bln=$(date -d "$masaaktif days" +"%b")
+thn=$(date -d "$masaaktif days" +"%Y")
+expe="$tgl $bln, $thn"
+tgl2=$(date +"%d")
+bln2=$(date +"%b")
+thn2=$(date +"%Y")
+tnggl="$tgl2 $bln2, $thn2"
+useradd -e `date -d "$masaaktif days" +"%Y-%m-%d"` -s /bin/false -M $Login
+hariini=`date -d "0 days" +"%Y-%m-%d"`
+expi=`date -d "$masaaktif days" +"%Y-%m-%d"`
+echo -e "$Pass\n$Pass\n"|passwd $Login &> /dev/null
+Lunatic_Banner
+MODE_Banner
+  echo -e ""
+  echo -e " Time Format : ${GreenARI}30${Xark}"
+  echo -e ""
+  echo -e " Example : ${GreenARI}30${Xark} for 30 Minutes"
+  echo -e ""
+baris_panjang
+echo ""
+read -p " Expired (Menit) : " waktu_ekspirasi_menit
+sleep 3 & loading $!
+if ! [[ $waktu_ekspirasi_menit =~ ^[0-9]+$ ]]; then
+    echo -e "${ERROR} Masukan harus berupa angka."
+    exit 1
+fi
+Loading_Succes
+CHATID="$CHATID"
+KEY="$KEY"
+TIME="$TIME"
+URL="$URL"
+TEXT="<code>---------------------------------------------------</code>
+<code>Your Premium VPN Details</code>
+<code>---------------------------------------------------</code>
+<code>IP Address    =</code> <code>$IP</code>
+<code>Hostname      =</code> <code>$domain</code>
+<code>Username      =</code> <code>$Login</code>
+<code>Password      =</code> <code>$Pass</code>
+<code>---------------------------------------------------</code>
+<code>OpenSSH       = 22
+Dropbear      = 443, 109, 143
+SSL/TLS       = 400-900
+SSH WS TLS    = 443
+SSH WS NTLS   = 80, 8080, 8081-9999
+OVPN WS NTLS  = 80, 8080, 8880
+OVPN WS TLS   = 443
+BadVPN UDP    = 7100,7200,7300</code>
+<code>---------------------------------------------------</code>
+SSH WS        : $domain:80@$Login:$Pass
+<code>---------------------------------------------------</code>
+SSH SSL       : $domain:443@$Login:$Pass
+<code>---------------------------------------------------</code>
+SSH UDP       : $domain:1-65535@$Login:$Pass
+<code>---------------------------------------------------</code>
+Ovpn Download : https://$domain:81/
+<code>---------------------------------------------------</code>
+Save Link Account: https://$domain:81/ssh-$Login.txt
+<code>---------------------------------------------------</code>
+Berakhir Pada  : $waktu_ekspirasi_menit Menit
+<code>---------------------------------------------------</code>
+"
+
+curl -s --max-time $TIME -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
+echo ""
+mkdir -p /etc/ssh
+
+if [[ ${c} != "0" ]]; then
+  echo "${d}" >/etc/ssh/${Login}
+fi
+DATADB=$(cat /etc/ssh/.ssh.db | grep "^###" | grep -w "${Login}" | awk '{print $2}')
+if [[ "${DATADB}" != '' ]]; then
+  sed -i "/\b${Login}\b/d" /etc/ssh/.ssh.db
+fi
+echo "### ${Login} ${exp} " >>/etc/ssh/.ssh.db
+echo ""
+cat > /var/www/html/ssh-$Login.txt <<-END
+---------------------------------------------------
+Format SSH OVPN Account
+---------------------------------------------------
+Username         : $Login
+Password         : $Pass
+Berakhir Pada  : $pup Menit
+---------------------------------------------------
+IP               : $IP
+Host             : $domain
+Port OpenSSH     : 443, 80, 22
+Port Dropbear    : 443, 109
+Port SSH UDP     : 1-65535
+Port SSH WS      : 80, 8080, 8081-9999
+Port SSH SSL WS  : 443
+Port SSL/TLS     : 400-900
+Port OVPN WS SSL : 443
+Port OVPN SSL    : 443
+Port OVPN TCP    : 1194
+Port OVPN UDP    : 2200
+BadVPN UDP       : 7100, 7300, 7300
+---------------------------------------------------
+Payload : GET / HTTP/1.1[crlf]Host: [host][crlf]Connection: Upgrade[crlf]User-Agent: [ua][crlf]Upgrade: websocket[crlf][crlf]
+---------------------------------------------------
+OVPN Download : https://$domain:81/
+---------------------------------------------------
+
+END
+PAYLOADWS="GET / HTTP/1.1[crlf]Host: [host][crlf]Connection: Upgrade[crlf]User-Agent: [ua][crlf]Upgrade: websocket[crlf][crlf]"
+
+PAYLOADTLS="GET wss://$domain/ HTTP/1.1[crlf]Host: [host][crlf]Connection: Upgrade[crlf]User-Agent: [ua][crlf]Upgrade: websocket[crlf][crlf]"
+
+PAYLOADHANCED="HEAD / HTTP/1.1[crlf]Host: Masukan_Bug[crlf][crlf]PATCH / HTTP/1.1[crlf]Host: [host][crlf]Upgrade: websocket[crlf][crlf][split]HTTP/ 1[crlf][crlf] "
+
+BlueCyan='\e[5;36m'
+Xark='\e[0m'
+ungu='\033[0;35m'
+yellow='\e[33m'
+WhiteBe='\e[5;37m'
+GreenBe='\e[5;32m'
+BlueCyan='\e[5;36m'
+Xark='\e[0m'
+clear
+
+# Port Account Detail
+function Ssh_Details(){
+echo -e "${WhiteBe}"
+baris_panjang
+echo " SSH OPENVPN "
+echo ""
+echo " Remark   : ${Login}"
+echo " pasword  : ${Pass}"
+echo " limit ip : ${iplimit}"
+echo " Domain   : ${domain}"
+echo " Port Udp : 1-65535 "
+echo " Port WS  : 80,8880,2082,8080"
+echo " Port Tls : 443,8443 "
+echo " OpenSSH  : 22,143 "
+echo " OVPN Tls : 443 "
+echo " Ovpn UdP : 2200 "
+echo " Ovpn Tcp : 443 "
+baris_panjang
+}
+function Copy_Faste(){
+echo -e " Port 80    : $domain:80@$Login:$Pass"
+echo -e " Port 443   : $domain:443@$Login:$Pass"
+echo -e " Udp Custom : $domain:1-65535@$Login:$Pass"
+echo -e " OpenVpn    : https://$domain:81/"
+echo -e " Account    : https://$domain:81/ssh-$Login.txt"
+}
+# Payload Detail 
+function Payload_Details(){
+baris_panjang
+echo " Payload WS    : ${PAYLOADWS}"
+baris_panjang
+echo " Payload Tls   : ${PAYLOADTLS}"
+baris_panjang
+echo " Payload Hnced : ${PAYLOADHANCED}"
+echo -e "${Xark}"
+baris_panjang
+}
+
+# Expired Account
+function Expiry_Account(){
+echo -e "${yellow}             Expiry in     : $waktu_ekspirasi_menit Minutes ${Xark} "
+baris_panjang
+}
+Ssh_Details
+Copy_Faste
+Payload_Details
+Expiry_Account
+Sc_Credit

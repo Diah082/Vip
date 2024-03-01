@@ -1,0 +1,131 @@
+#!/bin/bash
+
+yellow="\033[0;33m"
+ungu="\033[0;35m"
+Red="\033[91;1m"
+Cyan="\033[96;1m"
+Xark="\033[0m"
+BlueCyan="\033[5;36m"
+WhiteBe="\033[5;37m"
+GreenBe="\033[5;32m"
+YellowBe="\033[5;33m"
+BlueBe="\033[5;34m"
+# . Liner 
+function baris_panjang() {
+  echo -e "${BlueCyan} ———————————————————————————————————————————————${Xark}"
+}
+function Lunatic_Banner() {
+clear
+baris_panjang
+echo -e       "${ungu}                   NEWBIE STORE                 ${Xark}"
+baris_panjang
+}
+
+function Sc_Credit(){
+sleep 1
+baris_panjang
+echo -e       "${ungu}          Terimakasih sudah menggunakan-       ${Xark}"
+echo -e       "${ungu}         Script Credit By  NEWBIE STORE        ${Xark}"
+baris_panjang
+exit 1
+}
+
+duration=6
+frames=("██10%" "█████35%" "█████████65%" "█████████████80%" "█████████████████████90%" "█████████████████████████100%")
+
+# Menghitung jumlah frame
+num_frames=${#frames[@]}
+
+# Menghitung jumlah iterasi
+num_iterations=$((duration))
+
+# Fungsi untuk menampilkan animasi loading berwarna
+
+Loading_Animasi() {
+    for ((i = 0; i < num_iterations; i++)); do
+        clear
+        index=$((i % num_frames))
+        color_code=$((31 + i % 7))
+echo ""
+echo ""
+echo ""
+echo -e "\e[1;${color_code}m ${frames[$index]}\e[0m"
+sleep 0.5
+    done
+}
+
+# Menampilkan pesan Sukses setelah animasi selesai
+function Loading_Succes() {
+clear
+echo -e  "\033[5;32mSucces\033[0m"
+sleep 1
+clear
+}
+
+function Daftar_Account_Vmess() {
+grep -E "^### " "/etc/xray/config.json" | cut -d ' ' -f 2-3 | column -t | sort | uniq
+}
+
+Lunatic_Banner
+baris_panjang
+Daftar_Account_Vmess
+baris_panjang
+echo ""
+echo ""
+read -p "Input Username   :  " user
+limit_file="/etc/kyt/limit/vmess/ip/${user}"
+
+# Validasi apakah file batasan IP sudah ada
+if [ -e "$limit_file" ]; then
+  current_iplimit=$(cat "$limit_file")
+  
+baris_panjang
+echo -e "${Cyan} BEFORE IP LIMIT ${Xark} "
+echo ""
+echo -e "${GreenBe} Username : $user ${Xark} "
+echo -e "${GreenBe} Limit Ip : $current_iplimit"
+echo ""
+baris_panjang
+echo ""
+echo "" 
+read -p " Input New Ip  :" new_iplimit
+baris_panjang
+
+Loading_Animasi
+Loading_Succes
+
+  # Validasi jika masukan kosong
+  if [ -z "$new_iplimit" ]; then
+    echo -e "$Red Input Invallid ${Xark}"
+  else
+    echo "$new_iplimit" > "$limit_file"
+
+Lunatic_Banner
+baris_panjang
+echo -e "${GreenBe} Succesfully ${Xark} "
+echo ""
+echo -e "${yellow} New Limit :  $new_iplimit ${Xark} "
+echo -e "${yellow} Username  : $user ${Xark} "
+echo ""
+baris_panjang
+Sc_Credit
+
+  fi
+else
+Loading_Animasi
+clear
+
+Lunatic_Banner
+baris_panjang
+echo ""
+echo -e "${Red} Sorry ${Xark} "
+echo -e "${Cyan} "
+echo " File Limit Ip Untuk Nama $user "
+echo " Tidak Di Temukan "
+echo " Mohon Untuk segera Settings "
+echo " Terlebih Dahulu Di Menu - "
+echo " Change Limit Xray "
+echo -e "${Xark} "
+baris_panjang
+Sc_Credit
+fi

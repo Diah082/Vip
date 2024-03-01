@@ -1,0 +1,146 @@
+#!/bin/bash
+#Color
+DF='\e[39m'
+Bold='\e[1m'
+Blink='\e[5m'
+yell='\e[33m'
+RED='\033[0;31m'
+green='\e[32m'
+PURPLE='\e[35m'
+cyan='\e[36m'
+LRED='\e[91m'
+Lgreen='\e[92m'
+Lyellow='\e[93m'
+BG_BLU="\033[44;1m" # BG BIRU
+BlueCyan='\e[5;36m'
+Xark='\e[0m'
+GREN="\033[0;32m"
+GREEN='\033[0;32m'
+ORANGE='\033[0;33m'
+LIGHT='\033[0;37m'
+grenbo="\e[92;1m"
+blue="\033[0;34m"
+WhiteBe="\033[5;37m"
+Blue="\033[36m"
+clear
+
+echo -e "\e[32mloading...\e[0m"
+clear
+
+badvpn1=$(systemctl status vmip | grep running | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
+
+# STATUS SERVICE  BADVPN 1
+if [[ $badvpn1 == "running" ]]; then 
+   status_udp1="${GREEN}Online$NC${blue} │$NC"
+else
+   status_udp1="${RED}Offline${NC} "
+fi
+
+# Status cron
+cron_status=$(systemctl is-active cron.service)
+if [[ $cron_status == "active" ]]; then
+    cron_status="${grenbo}Aktif${NC}"
+else
+    cron_status="${RED}Tidak Aktif${NC}"
+fi
+
+echo -e "\033[5;36m┌──────────────────────────────────────────┐\033[0m"
+echo -e "Status cron: $cron_status"
+echo -e "Status limit ip $status_udp1 "
+echo -e "               MENU ON OFF LIMIT IP              $NC"
+echo -e "\033[5;36m└──────────────────────────────────────────┘\033[0m"
+echo -e "\033[5;36m┌──────────────────────────────────────────┐\033[0m"
+echo -e " ${WhiteBe}1. TURN OFF LIMIT IP VIA HAPUS${NC}"
+echo -e " ${WhiteBe}2. TURN ON LIMIT IP VIA HAPUS${NC}"
+echo -e " ${WhiteBe}3. SET TIMES LOCK IP${NC}"
+echo -e " ${WhiteBe}4. TURN OFF VIA LOCK IP${NC}"
+echo -e " ${WhiteBe}5. TURN ON LOCK IP${NC}"
+echo -e " ${WhiteBe}0. Back To Main Menu ${NC}"
+echo -e "\033[5;36m└──────────────────────────────────────────┘\033[0m"
+
+# Fungsi untuk mematikan cron "gon"
+stop_cron() {
+    # Hapus file cron "gon"
+    rm -f "/etc/cron.d/gon"
+
+    echo -e "Cron 'gon' berhasil ${RED}dinonaktifkan${NC}."
+}
+
+# Fungsi untuk menyalakan cron "gon"
+start_cron() {
+    echo "Menyalakan cron 'gon'..."
+    systemctl start cron.service
+}
+
+# Pilihan fungsi
+read -p "Select From Options [ 0 - 5 ] : " menu
+case $menu in
+    1)
+        # Fungsi untuk mematikan limit IP
+        clear ;
+        cd /etc/systemd/system/
+        rm -rf /etc/systemd/system/vmip.service
+        rm -rf /etc/systemd/system/vlip.service
+        rm -rf /etc/systemd/system/trip.service
+        systemctl daemon-reload
+        reboot
+        ;;
+    2)
+        # Fungsi untuk menyalakan limit IP
+        clear ;
+        cat >/etc/systemd/system/vmip.service << END
+        # ... (script untuk menyalakan vmip)
+END
+        systemctl daemon-reload
+        systemctl restart vmip
+        systemctl enable vmip
+
+        cat >/etc/systemd/system/vlip.service << END
+        # ... (script untuk menyalakan vlip)
+END
+        systemctl daemon-reload
+        systemctl restart vlip
+        systemctl enable vlip
+
+        cat >/etc/systemd/system/trip.service << END
+        # ... (script untuk menyalakan trip)
+END
+        systemctl daemon-reload
+        systemctl restart trip
+        systemctl enable trip
+        # SERVICE LIMIT QUOTA
+        reboot
+        ;;
+    3)
+        # Fungsi untuk menetapkan jadwal cron kustom
+        clear ;
+        echo "Masukkan jadwal cron kustom (contoh 1 untuk 1 menit):"
+        read -r custom_cron_schedule
+        cat >/etc/cron.d/gon <<-END
+        SHELL=/bin/sh
+        PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+        $custom_cron_schedule root /usr/local/sbin/gon
+END
+        echo -e "${GREEN}Waktu Banned Akun Telah Di Aktifkan${NC}\n"
+        ;;
+    4)
+        # Panggil fungsi untuk mematikan cron "gon"
+        clear ;
+        echo -e "${GREEN}MEMATIKAN CRON GON${NC}\n"
+        stop_cron
+        ;;
+    5)
+    # Panggil fungsi untuk menyalakan cron "gon"
+    clear ;
+    echo -e "${GREEN}MENYALAKAN CRON GON${NC}\n"
+    start_cron
+    ;;
+    0)
+        clear ;
+        menu
+        ;;
+    *)
+        clear ;
+        menu
+        ;;
+esac

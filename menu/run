@@ -1,0 +1,291 @@
+#!/bin/bash
+
+#Color
+DF='\e[39m'
+Bold='\e[1m'
+Blink='\e[5m'
+yell='\e[33m'
+RED='\033[0;31m'
+green='\e[32m'
+PURPLE='\e[35m'
+cyan='\e[36m'
+LRED='\e[91m'
+Lgreen='\e[92m'
+Lyellow='\e[93m'
+BG_BLU="\033[44;1m" # BG BIRU
+BlueCyan='\e[5;36m'
+Xark='\e[0m'
+GREN="\033[0;32m"
+GREEN='\033[0;32m'
+ORANGE='\033[0;33m'
+LIGHT='\033[0;37m'
+grenbo="\e[92;1m"
+blue="\033[0;34m"
+Blue="\033[36m"
+ungu="\033[0;35m"
+NC='\033[0m'
+clear
+
+loading() {
+  local pid=$1
+  local delay=0.1
+  local spin='-\|/'
+
+  while ps -p $pid > /dev/null; do
+    local temp=${spin#?}
+    printf "[%c] " "$spin"
+    local spin=$temp${spin%"$temp"}
+    sleep $delay
+    printf "\b\b\b\b\b\b"
+  done
+
+  printf "    \b\b\b\b"
+}
+function baris_panjang() {
+  echo -e "${BlueCyan} ──────────────────────────────────────────────${Xark}"
+}
+function Lunatic_Banner() {
+clear
+baris_panjang
+echo -e       "${ungu}                   NEWBIE STORE                ${Xark} "
+baris_panjang
+}
+
+function Sc_Credit(){
+sleep 1
+baris_panjang
+echo -e       "${ungu}         Terimakasih Telah Menggunakan         ${Xark}"
+echo -e       "${ungu}        Script Credit By  NEWBIE STORE         ${Xark}"
+baris_panjang
+read -n 1 -s -r -p "Press any key to back on menu"
+menu
+}
+# // System Information
+domain=$(cat /etc/xray/domain)
+WKT=$(curl -s ipinfo.io/timezone)
+IPVPS=$(curl -s ipv4.icanhazip.com)
+tram=$(free -m | awk 'NR==2 {print $2}')
+swap=$(free -m | awk 'NR==4 {print $2}')
+freq=$(awk -F: ' /cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo)
+cores=$(awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo)
+cname=$(awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo)
+knr=$( uname -r )
+
+# // Exporting IP Address
+export IP=$( curl -s https://ipinfo.io/ip/ )
+# // SSH
+ssh_service=$(/etc/init.d/ssh status | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
+openvpn_service="$(systemctl show openvpn.service --no-page)"
+oovpn=$(echo "${openvpn_service}" | grep 'ActiveState=' | cut -f2 -d=)
+dropbear_status=$(/etc/init.d/dropbear status | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
+haproxy_service=$(systemctl status haproxy | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
+fail2ban_service=$(/etc/init.d/fail2ban status | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
+cron_service=$(systemctl  status cron | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
+badvpn1=$(systemctl status udp-mini-1 | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
+badvpn2=$(systemctl status udp-mini-2 | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
+badvpn3=$(systemctl status udp-mini-3 | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
+Iptables=$(systemctl status netfilter-persistent | grep active | awk '{print $3}' | sed 's/(//g' | sed 's/)//g')
+RClocal=$(systemctl status rc-local | grep active | awk '{print $3}' | sed 's/(//g' | sed 's/)//g')
+Autorebot=$(systemctl status rc-local | grep active | awk '{print $3}' | sed 's/(//g' | sed 's/)//g')
+UdpSSH=$(systemctl status udp-custom | grep active | awk '{print $3}' | sed 's/(//g' | sed 's/)//g')
+
+openssh=$( systemctl status ssh | grep Active | awk '{print $3}' | sed 's/(//g' | sed 's/)//g' )
+if [[ $openssh == "running" ]]; then
+    status_openssh="${GREEN}Online$NC${White} │$NC"
+else
+    status_openssh="${RED}Offline${NC} "
+fi
+
+# // SSH Websocket Proxy
+ssh_ws=$( systemctl status ws | grep Active | awk '{print $3}' | sed 's/(//g' | sed 's/)//g' )
+if [[ $ssh_ws == "running" ]]; then
+    status_ws_epro="${GREEN}Online$NC${White} │$NC"
+else
+    status_ws_epro="${RED}Offline${NC} "
+fi
+
+# // Trojan Proxy
+ss=$( systemctl status xray | grep Active | awk '{print $3}' | sed 's/(//g' | sed 's/)//g' )
+if [[ $ss == "running" ]]; then
+    status_ss="${GREEN}Online$NC${White} │$NC"
+else
+    status_ss="${RED}Offline${NC} "
+fi
+
+# // NGINX
+nginx=$( /etc/init.d/nginx status | grep Active | awk '{print $3}' | sed 's/(//g' | sed 's/)//g' )
+if [[ $nginx == "running" ]]; then
+    status_nginx="${GREEN}Online$NC${White} │$NC"
+else
+    status_nginx="${RED}Offline${NC} "
+fi
+
+# STATUS SERVICE IPTABLES
+if [[ $Iptables == "exited" ]]; then
+    status_galo="${GREEN}Online$NC${White} │$NC"
+else
+    status_galo="${RED}Offline${NC}"
+fi
+
+# STATUS SERVICE  SSH 
+if [[ $ssh_service == "running" ]]; then 
+   status_ssh="${GREEN}Online$NC${White} │$NC"
+else
+   status_ssh="${RED}Offline${NC} "
+fi
+
+# STATUS OHP SSH
+#if [[ $ohr == "running" ]]; then 
+ #  sohr="${GREEN}Online${NC}${NC}"
+#else
+ #  sohr="${RED}Offline${NC} ${NC}"
+#fi
+
+# STATUS SERVICE OPENVPN
+if [[ $oovpn == "active" ]]; then
+  status_openvpn="${GREEN}Online$NC${White} │$NC"
+else
+  status_openvpn="${RED}Offline${NC} "
+fi
+
+# STATUS SERVICE DROPBEAR
+if [[ $dropbear_status == "running" ]]; then 
+   status_beruangjatuh="${GREEN}Online$NC${White} │$NC"
+else
+   status_beruangjatuh="${RED}Offline${NC} ${NC}"
+fi
+
+# STATUS SERVICE HAPROXY
+if [[ $haproxy_service == "running" ]]; then 
+   status_haproxy="${GREEN}Online$NC${White} │$NC"
+else
+   status_haproxy="${RED}Offline${NC} "
+fi
+
+# STATUS SERVICE  SQUID 
+#if [[ $squid_service == "running" ]]; then 
+  # status_squid="${GREEN}Online${NC} ( No Etror )"
+#else
+  # status_squid="${RED}Offline${NC} "
+#fi
+
+# STATUS SERVICE  FAIL2BAN 
+if [[ $fail2ban_service == "running" ]]; then 
+   status_fail2ban="${GREEN}Online$NC${White} │$NC"
+else
+   status_fail2ban="${RED}Offline${NC} "
+fi
+
+# STATUS SERVICE  CRONS 
+if [[ $cron_service == "running" ]]; then 
+   status_cron="${GREEN}Online$NC${White} │$NC"
+else
+   status_cron="${RED}Offline${NC} "
+fi
+
+# STATUS SERVICE  BADVPN 1
+if [[ $badvpn1 == "running" ]]; then 
+   status_udp1="${GREEN}Online$NC${White} │$NC"
+else
+   status_udp1="${RED}Offline${NC} "
+fi
+
+# STATUS SERVICE  BADVPN 2
+if [[ $badvpn2 == "running" ]]; then 
+   status_udp2="${GREEN}Online$NC${White} │$NC"
+else
+   status_udp2="${RED}Offline${NC} "
+fi
+
+# STATUS SERVICE  BADVPN 3
+if [[ $badvpn3 == "running" ]]; then 
+   status_udp3="${GREEN}Online$NC${White} │$NC"
+else
+   status_udp3="${RED}Offline${NC} "
+fi
+
+if [[ $RClocal == "exited" ]]; then
+    status_galoo="${GREEN}Online$NC${White} │$NC"
+else
+    status_galoo="${RED}Offline${NC}"
+fi
+
+if [[ $Autorebot == "exited" ]]; then
+    status_galooo="${GREEN}Online$NC${White} │$NC"
+else
+    status_galooo="${RED}Offline${NC}"
+fi
+
+# STATUS SERVICE  SSH UDP 
+if [[ $UdpSSH == "running" ]]; then 
+   status_udp="${GREEN}Online$NC${White} │$NC"
+else
+   status_udp="${RED}Offline${NC} "
+fi
+
+# // Running Function 
+clear
+Lunatic_Banner
+echo -e " ${White}┌────────────────────────────────────────────┐$NC"
+sleep 0.6 & loading $!
+echo -e " ${White}│ ${White}Service SSH / TUN                 $blue=$NC $status_ssh"
+sleep 0.6 & loading $!
+echo -e " ${White}│ ${White}Service SSH UDP                   $blue=$NC $status_udp"
+sleep 0.6 & loading $!
+echo -e " ${White}│ ${White}Service OpenVPN SSL               $blue=$NC $status_openvpn"
+sleep 0.6 & loading $!
+echo -e " ${White}│ ${White}Service OpenVPN WS-SSL            $blue=$NC $status_openvpn"
+sleep 0.6 & loading $!
+echo -e " ${White}│ ${White}Service OpenVPN UDP               $blue=$NC $status_openvpn"
+sleep 0.6 & loading $!
+echo -e " ${White}│ ${White}Service OpenVPN TCP               $blue=$NC $status_openvpn"
+sleep 0.6 & loading $!
+echo -e " ${White}│ ${White}Service OHP SSH                   $blue=$NC $status_openvpn"
+sleep 0.6 & loading $!
+echo -e " ${White}│ ${White}Service OHP Dropbear              $blue=$NC $status_openvpn"
+sleep 0.6 & loading $!
+echo -e " ${White}│ ${White}Service OHP OpenVPN               $blue=$NC $status_openvpn"
+sleep 0.6 & loading $!
+echo -e " ${White}│ ${White}Service WS ePRO                   $blue=$NC $status_ws_epro"
+sleep 0.6 & loading $!
+echo -e " ${White}│ ${White}Service BadVPN 7100               $blue=$NC $status_udp1"
+sleep 0.6 & loading $!
+echo -e " ${White}│ ${White}Service BadVPN 7200               $blue=$NC $status_udp2"
+sleep 0.6 & loading $!
+echo -e " ${White}│ ${White}Service BadVPN 7300               $blue=$NC $status_udp3"
+sleep 0.6 & loading $!
+echo -e " ${White}│ ${White}Service Dropbear                  $blue=$NC $status_beruangjatuh"
+sleep 0.6 & loading $!
+echo -e " ${White}│ ${White}Service Haproxy                   $blue=$NC $status_haproxy"
+sleep 0.6 & loading $!
+echo -e " ${White}│ ${White}Service Crons                     $blue=$NC $status_cron"
+sleep 0.6 & loading $!
+echo -e " ${White}│ ${White}Service Nginx Webserver           $blue=$NC $status_nginx"
+sleep 0.6 & loading $!
+echo -e " ${White}│ ${White}Service Xray Vmess WS TLS         $blue=$NC $status_ss"
+sleep 0.6 & loading $!
+echo -e " ${White}│ ${White}Service Xray Vmess WS Non TLS     $blue=$NC $status_ss"
+sleep 0.6 & loading $!
+echo -e " ${White}│ ${White}Service Xray Vmess gRPC           $blue=$NC $status_ss"
+sleep 0.6 & loading $!
+echo -e " ${White}│ ${White}Service Xray Vless WS TLS         $blue=$NC $status_ss"
+sleep 0.6 & loading $!
+echo -e " ${White}│ ${White}Service Xray Vless WS Non TLS     $blue=$NC $status_ss"
+sleep 0.6 & loading $!
+echo -e " ${White}│ ${White}Service Xray Vless gRPC           $blue=$NC $status_ss"
+sleep 0.6 & loading $!
+echo -e " ${White}│ ${White}Service Xray Trojan WS            $blue=$NC $status_ss"
+sleep 0.6 & loading $!
+echo -e " ${White}│ ${White}Service Xray Trojan Non WS        $blue=$NC $status_ss"
+sleep 0.6 & loading $!
+echo -e " ${White}│ ${White}Service Xray Trojan gRPC          $blue=$NC $status_ss"
+sleep 0.6 & loading $!
+echo -e " ${White}│ ${White}Service Xray Shadowsocks WS       $blue=$NC $status_ss"
+sleep 0.6 & loading $!
+echo -e " ${White}│ ${White}Service Xray Shadowsocks Non WS   $blue=$NC $status_ss"
+sleep 0.6 & loading $!
+echo -e " ${White}│ ${White}Service Xray Shadowsocks gRPC     $blue=$NC $status_ss"
+sleep 0.6 & loading $!
+echo -e " ${White}└────────────────────────────────────────────┘$NC"
+Sc_Credit
+

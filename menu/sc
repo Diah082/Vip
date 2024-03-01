@@ -1,0 +1,81 @@
+#!/bin/bash
+clear
+BlueCyan='\e[5;36m'
+Xark='\e[0m'
+ungu='\033[0;35m'
+yellow='\e[33m'
+WhiteBe='\e[5;37m'
+GreenBe='\e[5;32m'
+Green="\033[0;32m"
+BlueCyan='\e[5;36m'
+YELL="\033[93;1m"
+Cyan="\033[96;1m"
+Xark='\e[0m'
+function List_Script() {
+echo -e "${BlueCyan}───────────────────────────────────────────${Xark}"
+echo -e "${ungu}            DAFTAR SEWA SCRIPT            ${Xark}"
+echo -e "${BlueCyan}───────────────────────────────────────────${Xark}"
+echo ""
+echo " 1 bulan  / 1 ip    : 10.000 "
+echo " 2 bulan  / 2 ip    : 20.000 "
+echo " Lifetime / 1 ip    : 30.000 "
+echo " Lifetime / 2 ip    : 45.000 "
+echo " Lifetime / 3 ip    : 60.000 "
+echo " Lifetime / 4 ip    : 75.000 "
+echo " Lifetime / 5 ip    : 100.000 "
+echo " Lifetime / Unli ip : 150.000 "
+echo ""
+echo -e "${Xark}"
+echo -e "${BlueCyan}───────────────────────────────────────────${Xark}"
+}
+
+
+
+function List_Source() {
+echo -e "${BlueCyan}───────────────────────────────────────────${Xark}"
+echo -e "${Cyan}"
+echo " OPEN SOURCE : 400.000 "
+echo -e "${Xark}"
+echo -e "${BlueCyan}───────────────────────────────────────────${Xark}"
+echo ""
+echo -e "${WhiteBe}"
+echo " Ke untungan beli open Source "
+echo ""
+echo " Script jadi hak Milik 100% "
+echo " Script Bisa di sewakan "
+echo " Script Bebas Edit / Custom "
+echo -e "${Xark}"
+echo -e "${BlueCyan} Thank You ${Xark} "
+echo ""
+echo -e "${BlueCyan}───────────────────────────────────────────${Xark}"
+}
+
+echo -e "${BlueCyan}───────────────────────────────────────────${Xark}"
+echo -e "${BlueCyan}                  ABOUT                  ${Xark}"
+echo -e "${BlueCyan}───────────────────────────────────────────${Xark}"
+echo ""
+echo -e "${Green}"
+echo " Jika Anda Minat dengan Sc Kami "
+echo " Boleh anda Hubungi nomor di bawah "
+echo " Whatsapp : +6287715912587  "
+echo ""
+echo -e "${BlueCyan}───────────────────────────────────────────${Xark}"
+echo -e "${YELL}"
+echo " 1. Harga sewa Script "
+echo " 2. Harga Open Source "
+echo " x. Exit "
+echo -e "${Xark}"
+echo -e "${BlueCyan}───────────────────────────────────────────${Xark}"
+
+function Exe_Menu() {
+echo ""
+echo ""
+read -p "Select [1\2 or x]  : " wadux
+case $wadux in
+1) clear ; List_Script ;;
+2) clear ; List_Source ;;
+*) menu ;;
+esac
+}
+
+Exe_Menu

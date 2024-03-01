@@ -1,0 +1,60 @@
+#!/bin/bash
+
+
+BlueCyan='\e[5;36m'
+Xark='\e[0m'
+ungu='\033[0;35m'
+yellow='\e[33m'
+WhiteBe='\e[5;37m'
+GreenBe='\e[5;32m'
+BlueCyan='\e[5;36m'
+Xark='\e[0m'
+clear
+
+function baris_panjang() {
+  echo -e "${BlueCyan} ——————————————————————————— ${Xark} "
+}
+
+
+function Backup_Vps() {
+  backup
+}
+
+
+function Restore_Vps() {
+  restore
+}
+
+
+function Auto_Backup_Vps() {
+  autobackup
+}
+
+
+function Banner() {
+  baris_panjang
+  echo -e "${ungu}           Backup      ${Xark} "
+  baris_panjang
+}
+
+
+function Menu_Features() {
+  baris_panjang
+  echo -e "${ungu}"
+  echo " 1. Backup Vps Data  "
+  echo " 2. Restore Vps Data "
+  echo " 3. Auto Backup Vps "
+  echo -e "${Xark}"
+  echo -e "${yellow} x. Exit ${Xark}"
+  baris_panjang
+}
+
+Banner
+Menu_Features
+read -p "Select [1/4 or x] :  " Ltt
+case $Ltt in
+1) clear ; Backup_Vps ;;
+2) clear ; Restore_Vps ;;
+3) clear ; Auto_Backup_Vps ;;
+*) exit ;;
+esac

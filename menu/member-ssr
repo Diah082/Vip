@@ -1,0 +1,91 @@
+#!/bin/bash
+
+# Color
+RED='\033[0;31m'
+NC='\033[0m'
+GREEN='\033[0;32m'
+ORANGE='${BlueCyan}'
+BLUE='\033[0;34m'
+PURPLE='\033[0;35m'
+CYAN='\033[0;36m'
+LIGHT='\033[0;37m'
+BlueCyan="\033[5;36m"
+
+yellow="\033[0;33m"
+ungu="\033[0;35m"
+Red="\033[91;1m"
+Xark="\033[0m"
+BlueCyan="\033[5;36m"
+WhiteBe="\033[5;37m"
+GreenBe="\033[5;32m"
+YellowBe="\033[5;33m"
+BlueBe="\033[5;34m"
+# . Liner 
+function baris_panjang() {
+  echo -e "${BlueCyan} ———————————————————————————————————————————————${Xark}"
+}
+function Lunatic_Banner() {
+clear
+baris_panjang
+echo -e       "${ungu}                   CAPMODZSTORE                 ${Xark}"
+baris_panjang
+}
+
+function Sc_Credit(){
+sleep 1
+baris_panjang
+echo -e       "${ungu}          Terimakasih sudah menggunakan-       ${Xark}"
+echo -e       "${ungu}         Script Credit By  CAPMODZSTORE        ${Xark}"
+baris_panjang
+exit 1
+}
+
+duration=6
+frames=("██10%" "█████35%" "█████████65%" "█████████████80%" "█████████████████████90%" "█████████████████████████100%")
+
+# Menghitung jumlah frame
+num_frames=${#frames[@]}
+
+# Menghitung jumlah iterasi
+num_iterations=$((duration))
+
+# Fungsi untuk menampilkan animasi loading berwarna
+
+Loading_Animasi() {
+    for ((i = 0; i < num_iterations; i++)); do
+        clear
+        index=$((i % num_frames))
+        color_code=$((31 + i % 7))
+echo ""
+echo ""
+echo ""
+echo -e "\e[1;${color_code}m ${frames[$index]}\e[0m"
+sleep 0.5
+    done
+}
+
+# Menjalankan animasi loading
+
+# Menampilkan pesan setelah animasi selesai
+function Loading_Succes() {
+clear
+echo -e  "\033[5;32mSucces\033[0m"
+sleep 1
+clear
+}
+
+Lunatic_Banner
+	baris_panjang
+	echo -e "${Cyan}            LIST MEMBER ${Xark} "
+	baris_panjang
+    echo "" 
+    baris_panjang 
+    echo -e "${yellow} Username ${Xark}" 
+	baris_panjang
+	grep -E "^#!# " "/etc/xray/config.json" | cut -d ' ' -f 2-3 | column -t | sort | uniq
+    echo ""
+    baris_panjang
+    echo ""
+    Sc_Credit
+	read -p "Enter Back To Menu "
+	menu

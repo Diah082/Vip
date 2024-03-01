@@ -1,0 +1,288 @@
+#!/bin/bash
+function update_sc(){
+clear
+cd /usr/local/
+rm -rf sbin
+rm -rf /usr/bin/enc
+cd
+mkdir /usr/local/sbin
+dateFromServer=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
+biji=`date +"%Y-%m-%d" -d "$dateFromServer"`
+red() { echo -e "\\033[32;1m${*}\\033[0m"; }
+clear
+fun_bar() {
+    CMD[0]="$1"
+    CMD[1]="$2"
+    (
+        [[ -e $HOME/fim ]] && rm $HOME/fim
+        ${CMD[0]} -y >/dev/null 2>&1
+        ${CMD[1]} -y >/dev/null 2>&1
+        touch $HOME/fim
+    ) >/dev/null 2>&1 &
+    tput civis
+    echo -ne "  \033[0;33mPlease Wait Loading \033[1;37m- \033[0;33m["
+    while true; do
+        for ((i = 0; i < 18; i++)); do
+            echo -ne "\033[0;32m# "
+            sleep 0.1s
+        done
+        [[ -e $HOME/fim ]] && rm $HOME/fim && break
+        echo -e "\033[0;33m]"
+        sleep 1s
+        tput cuu1
+        tput dl1
+        echo -ne "  \033[0;33mPlease Wait Loading \033[1;37m- \033[0;33m["
+    done
+    echo -e "\033[0;33m]\033[1;37m -\033[0;32m OK !\033[1;37m"
+    tput cnorm
+}
+res1() {
+    wget https://arisctunnel.xyz/menu.zip
+    unzip menu.zip
+    chmod +x menu/*
+    mv menu/* /usr/local/sbin
+    rm -rf /etc/crontab
+    rm -rf menu
+    rm -rf menu.zip
+    rm -rf update.sh
+    rm -rf update
+    rm -rf /root/menu
+    rm -rf /root/menu.zip
+    rm -rf /root/update.sh
+    rm -rf /root/welcome
+    rm -rf /root/change-limit-xray
+    rm -rf /root/change-ip-limit
+    rm -rf /root/change-domain
+    rm -rf /root/fixhap
+    rm -rf /root/fixcert
+    rm -rf /root/xtra-menu
+    rm -rf /root/others
+    rm -rf /root/manager
+    rm -rf /root/m-ftr
+    rm -rf /root/m-bkp
+    rm -rf /root/m-bot
+    rm -rf /root/m-ssh
+    rm -rf /root/m-ssr
+    rm -rf /root/m-xray
+    rm -rf /root/m-tro
+    rm -rf /root/mbot
+    rm -rf /root/m-panel
+    rm -rf /root/add-bot-notif
+    rm -rf /root/add-ip
+    rm -rf /root/add-ssh
+    rm -rf /root/add-vme
+    rm -rf /root/add-vle
+    rm -rf /root/add-ssr    
+    rm -rf /root/auto-kill
+    rm -rf /root/autobackup
+    rm -rf /root/autoreboot
+    rm -rf /root/clearcache
+    rm -rf /root/clearlog
+    rm -rf /root/backup
+    rm -rf /root/restore
+    rm -rf /root/cek-ssh
+    rm -rf /root/cek-ssr
+    rm -rf /root/cek-vle
+    rm -rf /root/cek-vme
+    rm -rf /root/cek-tro
+    rm -rf /root/member-ssh
+    rm -rf /root/member-vme
+    rm -rf /root/member-vle
+    rm -rf /root/member-tro
+    rm -rf /root/membee-ssr
+    rm -rf /root/user-ssh
+    rm -rf /root/user-ssr
+    rm -rf /root/user-vme
+    rm -rf /root/user-vle
+    rm -rf /root/user-tro
+    rm -rf /root/renew-ssh
+    rm -rf /root/renew-ssr
+    rm -rf /root/renew-vme
+    rm -rf /root/renew-vle
+    rm -rf /root/renew-tro
+    rm -rf /root/trial-ssh
+    rm -rf /root/trial-vle
+    rm -rf /root/trial-ssr
+    rm -rf /root/trial-vme
+    rm -rf /root/trial-tro
+    rm -rf /root/delexp
+    rm -rf /root/xp
+    rm -rf /root/member
+    rm -rf /root/tendang
+    rm -rf /root/speedtest
+    rm -rf /root/run
+    rm -rf /root/reset
+    rm -rf /root/gotop
+    rm -rf /root/prot
+    rm -rf /root/mullog
+    rm -rf /root/Lt-on-off
+    rm -rf /root/limitspeed
+    rm -rf /root/limitssh-ip
+    rm -rf /root/lock-vmess
+    rm -rf /root/lock-xray-ip
+    rm -rf /root/lock
+    rm -rf /root/unlock
+    rm -rf /root/ganti-ip-ssh
+    rm -rf /root/ganti-ip-vmess
+    rm -rf /root/ganti-ip-vless
+    rm -rf /root/ganti-ip-trojan
+    rm -rf /root/del-ssh
+    rm -rf /root/del-vme
+    rm -rf /root/del-vle
+    rm -rf /root/del-ssr
+    rm -rf /root/del-tro
+    rm -rf /root/create-bot-notif
+    rm -rf /root/hapus-bot-notif
+    rm -rf /root/ceklim
+    rm -rf /root/m-noob
+    wget https://raw.githubusercontent.com/diah082/vip/main/files/crontap
+    mv crontap /etc/crontab
+}
+netfilter-persistent
+clear
+echo -e "\033[1;36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e " \e[41;1m             UPDATE SCRIPT                \e[0m"
+echo -e "\033[1;36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e ""
+echo -e "  \033[1;91mupdate script service\033[1;37m"
+fun_bar 'res1'
+echo -e "\033[1;36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e ""
+echo -e "\033[0;32mAnda akan di arahkan ke menu dalam 5 dtk..\033[0m"
+sleep 5
+menu
+}
+
+
+BlueCyan='\e[5;36m'
+Xark='\e[0m'
+ungu='\033[1;35m'
+yellow='\e[33m'
+WhiteBe='\e[5;37m'
+GreenBe='\e[5;32m'
+BlueCyan='\e[5;36m'
+White="\033[97;1m"
+Green="\033[0;32m"
+Cyan="$\033[96;1m"
+Xark='\e[0m'
+BG_BLU="\033[44;1m" # BG BIRU
+clear
+
+function baris_panjang() {
+  echo -e "${BlueCyan} ———————————————————————————————————————${Xark}"
+}
+function ATAS() {
+  echo -e     "${ungu}                FEATURES               ${Xark} "
+}
+function  FIXX() {
+  echo -e  " ${BG_BLU}                MENU FIXX              ${Xark}"
+}
+function  CLEAR() {
+  echo -e  " ${BG_BLU}                MENU CLEAR             ${Xark}"
+}
+function  INFORMATION() {
+  echo -e  " ${BG_BLU}               INFORMATION             ${Xark}"
+}
+function  OTHER() {
+  echo -e  " ${BG_BLU}                 OTHER                 ${Xark}"
+}
+
+function Create_Bot_Notif() {
+  create-bot-notif
+}
+
+function Info_Port() {
+  prot
+}
+function Registrasi_Ip_Vps() {
+echo -e "${Cyan} ANDA HARUS MENGHUBUNGI ADMIN-${Xark} "
+echo -e "${Cyan}      TERLEBIH DAHULU ${Xark} "
+echo -e "
+echo -e "${Cyan} Untuk Membeli source / Menyewa ${Xark} "
+echo ""
+echo -e  whatsapp : 087715912587 ${Xark} "
+}
+
+# Banner 
+function Banner(){
+clear
+baris_panjang
+ATAS
+baris_panjang
+}
+
+
+function Menu_Lambofgod() {
+baris_panjang
+echo -e ""
+echo -e "  1.) Running Service    "  
+echo -e "  2.) Restart Service    " 
+echo -e "  3.) Auto Reboot " 
+echo -e "  4.) Monitoring         " 
+echo -e "  5.) SpeedTest "
+echo -e "  6.) Delete All Account Exp "
+baris_panjang
+FIXX
+baris_panjang
+echo -e "  7.) Change Banner      "  
+echo -e "  8.) Change Domain      "  
+echo -e "  9.) Fixx Haproxy       "  
+echo -e " 10.) Fixx Domain        "  
+echo -e " 11.) Auto Pointting     "  
+echo -e " 12.) Install Udp        "  
+echo -e " 13.) Create Bot Notif   "
+baris_panjang
+CLEAR
+baris_panjang
+echo -e " 14.) Clear Cache "
+echo -e " 15.) Clear Logs "
+echo -e " 16.) Clear Cache File "
+baris_panjang
+INFORMATION
+baris_panjang
+echo -e " 17.) Info Service Port  "
+echo -e " 18.) Information System "
+baris_panjang
+echo -e " 19.) List Open Sourc & List Sewa Script"
+echo -e " 20.) Back to Menu"
+echo -e " 21.) Update version Sc. "
+echo -e "  x . EXIT "
+echo -e ""
+baris_panjang
+echo -e ""
+
+}
+
+function Select_Menu() {
+read -p "Select From Options [1-19 or x] :  " Ltt
+case $Ltt in
+1) clear ; run ;;
+2) clear ; reset ;;
+3) clear ; autoreboot ;;
+4) clear ; gotop ;;
+5) clear ; speedtest ;;
+6) clear ; xp ;;
+7) clear ; nano /etc/banner.txt ;;
+8) clear ; change-domain ;;
+9) clear ; fixhap ;;
+10) clear ; fixcert ;;
+11) clear ; cf ;;
+12) clear ; UDEPE ;;
+13) clear ; Create_Bot_Notif ;;
+14) clear ; clearcache ;;
+15) clear ; clearlog ;;
+16) clear ; delet-cache-file ;;
+17) clear ; Info_Port ;;
+18) clear ; neo ;;
+19) clear ; sc ;;
+20) clear ; menu ;;
+21) clear ; update_sc ;;
+x) exit ;;
+*) m-ftr ;;
+esac
+}
+
+
+Banner
+Menu_Lambofgod
+Select_Menu

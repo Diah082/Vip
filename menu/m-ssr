@@ -1,0 +1,90 @@
+#!/bin/bash
+
+BlueCyan='\e[5;36m'
+Xark='\e[0m'
+ungu='\033[0;35m'
+yellow='\e[33m'
+WhiteBe='\e[5;37m'
+GreenBe='\e[5;32m'
+BlueCyan='\e[5;36m'
+Xark='\e[0m'
+BG_BLU="\033[44;1m" # BG BIRU
+GREN="\033[0;32m"
+clear
+
+function baris_panjang() {
+  echo -e "${BlueCyan} ———————————————————————————————————————${Xark}"
+}
+function ATAS() {
+  echo -e  " ${BG_BLU}              SHADOWSOCKS-R            ${Xark}"
+}
+
+# . 1
+function Create_Account() {
+  add-ssr
+}
+
+# . 2
+function Create_Trial() {
+  trial-ssr
+}
+
+# . 3
+function List_Member() {
+  member-ssr
+}
+
+# . 4
+function Delete_Account() {
+  delet-ssr
+}
+
+# . 5
+function Changes_Limit() {
+  change-limit-xray
+}
+
+# . 6
+function Renew_Account() {
+  renew-ssr
+}
+
+function Monitor_Ssr(){
+ cek-ssr
+}
+
+function Banner() {
+  baris_panjang
+  ATAS
+  baris_panjang
+}
+
+function Menu_Features() {
+  baris_panjang
+  echo -e ""
+  echo -e "   1.)  Create Account ShadowsocksR "
+  echo -e "   2.)  Trial Account ShadowsocksR "
+  echo -e "   3.)  Delete Account ShadowsocksR "
+  echo -e "   4.)  Renew Account ShadowsocksR "
+  echo -e "   5.)  Check Users Login "
+  echo -e "   6.)  List Member "
+  echo -e "   7.)  Back to Menu "
+  echo -e "   x.)  Exit "
+  baris_panjang
+  baris_panjang
+}
+
+Banner
+Menu_Features
+read -p "Select From Options [1-6 or x] :  " Ltt
+case $Ltt in
+1) clear ; Create_Account ;;
+2) clear ; Create_Trial ;;
+3) clear ; Delete_Account ;;
+4) clear ; Renew_Account ;;
+5) clear ; List_Member ;;
+6) clear ; Monitor_Ssr ;;
+7) clear ; menu ;;
+*) m-ssr ;;
+x) exit ;;
+esac

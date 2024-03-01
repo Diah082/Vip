@@ -1,0 +1,42 @@
+#!/bin/bash
+# Getting
+
+RDP="https://raw.githubusercontent.com/Jengkolonline/XRAY/main/"
+WEBU="http://files.webuzo.com/install.sh"
+VESTA="http://vestacp.com/pub/vst-install.sh"
+UI="(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh) v1.6.1"
+PT="(curl -s https://pterodactyl-installer.se)"
+CB="https://cyberpanel.net/install.sh"
+UPDATE="https://raw.githubusercontent.com/Jengkolonline/XRAY/main/"
+BOT="https://raw.githubusercontent.com/Jengkolonline/XRAY/main/"
+UDPCORE="https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1S3IE25v_fyUfCLslnujFBSBMNunDHDk2' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1S3IE25v_fyUfCLslnujFBSBMNunDHDk2"
+#NTN="https://raw.githubusercontent.com/Jengkolonline/nonton/main/nf.sh"
+clear
+echo -e " \033[31m##########\033[33m##########\033[32m##########\033[34m##########\033[35m##########\033[36m##########\e[0m"
+echo -e " \033[31m╭══════════════════════════════════════════════════════════╮\e[0m"
+echo -e " \033[34m│$NC\033[33m                   MENU Install Panel                     $NC\033[34m│\e[0m"
+echo -e " \033[33m╰══════════════════════════════════════════════════════════╯\e[0m"
+echo -e " \033[32m╭══════════════════════════════════════════════════════════╮\e[0m"
+#echo -e " \033[35m│$NC [01]${NC} \033[0;36m Installer Psiphon Pro${NC}"
+#echo -e " \033[35m│$NC [02]${NC} \033[0;36m Installer DNS Global Netflix, YouTube dll${NC}"
+echo -e " \033[35m│$NC [01]${NC} \033[0;36m Installer RDP${NC}"
+echo -e " \033[35m│$NC [02]${NC} \033[0;36m Installer WEBUZO${NC}"
+echo -e " \033[35m│$NC [03]${NC} \033[0;36m Installer VESTA${NC}"
+echo -e " \033[35m│$NC [04]${NC} \033[0;36m Installer UI B.Inggris${NC}"
+echo -e " \033[35m│$NC [05]${NC} \033[0;36m Installer PTERODACTYL${NC}"
+echo -e " \033[35m│$NC [06]${NC} \033[0;36m Installer CYBERPANEL${NC}"
+echo -e " \033[35m│$NC [07]${NC} \033[0;36m Installer WEBMIN${NC}"
+echo -e " \033[36m╰══════════════════════════════════════════════════════════╯\e[0m"
+echo -e " \033[31m##########\033[33m##########\033[32m##########\033[34m##########\033[35m##########\033[36m##########\e[0m"
+echo -e ""
+read -p " Select From Options [ 1 - 5 ] : " menu
+case $menu in
+1) clear ; wget ${RDP}/foldder/ins-rdp.sh && chmod +x ins-rdp.sh && ./ins-rdp.sh ; exit ;;
+2) clear ; wget -N ${WEBU} && chmod 0755 install.sh && ./install.sh ; exit ;;
+3) clear ; curl ${VESTA} | bash ; exit ;;
+4) clear ; bash ${UI} ; exit ;;
+5) clear ; bash ${PT} ; exit ;;
+6) clear ; wget -O installer.sh ${CB} && chmod +x install.sh && ./install.sh ; exit ;;
+7) clear ; webmin ; exit ;;
+*) clear ; menu ; exit ;;
+esac

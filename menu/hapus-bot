@@ -1,0 +1,132 @@
+#!/bin/bash
+yellow="\033[0;33m"
+ungu="\033[0;35m"
+Red="\033[91;1m"
+Xark="\033[0m"
+BlueCyan="\033[5;36m"
+Cyan="\033[96;1m"
+Purple="\033[95;1m"
+Green="\033[0;32m"
+WhiteBe="\033[5;37m"
+GreenBe="\033[5;32m"
+YellowBe="\033[5;33m"
+BlueBe="\033[5;34m"
+# . Liner 
+function baris_panjang() {
+  echo -e "${BlueCyan} ———————————————————————————————————————————————${Xark}"
+}
+function Lunatic_Banner() {
+clear
+baris_panjang
+echo -e       "${ungu}                   NEWBIE STORE                 ${Xark}"
+baris_panjang
+}
+
+function Sc_Credit(){
+sleep 1
+baris_panjang
+echo -e       "${ungu}          Terimakasih sudah menggunakan-       ${Xark}"
+echo -e       "${ungu}         Script Credit By  NEWBIE STORE        ${Xark}"
+baris_panjang
+exit 1
+}
+
+duration=6
+frames=("██10%" "█████35%" "█████████65%" "█████████████80%" "█████████████████████90%" "█████████████████████████100%")
+
+# Menghitung jumlah frame
+num_frames=${#frames[@]}
+
+# Menghitung jumlah iterasi
+num_iterations=$((duration))
+
+# Fungsi untuk menampilkan animasi loading berwarna
+
+Loading_Animasi() {
+    for ((i = 0; i < num_iterations; i++)); do
+        clear
+        index=$((i % num_frames))
+        color_code=$((31 + i % 7))
+echo ""
+echo ""
+echo ""
+echo -e "\e[1;${color_code}m ${frames[$index]}\e[0m"
+sleep 0.5
+    done
+}
+
+# Menjalankan animasi loading
+
+# Menampilkan pesan setelah animasi selesai
+function Loading_Succes() {
+clear
+echo -e  "\033[5;32mSucces\033[0m"
+sleep 1
+clear
+}
+
+
+
+dateFromServer=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
+biji=`date +"%Y-%m-%d" -d "$dateFromServer"`
+red() { echo -e "\\033[32;1m${*}\\033[0m"; }
+clear
+fun_bar() {
+    CMD[0]="$1"
+    CMD[1]="$2"
+    (
+        [[ -e $HOME/fim ]] && rm $HOME/fim
+        ${CMD[0]} -y >/dev/null 2>&1
+        ${CMD[1]} -y >/dev/null 2>&1
+        touch $HOME/fim
+    ) >/dev/null 2>&1 &
+    tput civis
+    echo -ne "  \033[0;33mPlease Wait Loading \033[1;37m- \033[0;33m["
+    while true; do
+        for ((i = 0; i < 18; i++)); do
+            echo -ne "\033[0;32m#"
+            sleep 0.1s
+        done
+        [[ -e $HOME/fim ]] && rm $HOME/fim && break
+        echo -e "\033[0;33m]"
+        sleep 1s
+        tput cuu1
+        tput dl1
+        echo -ne "  \033[0;33mPlease Wait Loading \033[1;37m- \033[0;33m["
+    done
+    echo -e "\033[0;33m]\033[1;37m -\033[0;32m OK !\033[1;37m"
+    tput cnorm
+}
+res1() {
+    cd /root
+    rm -rf xbot.sh
+    cd /usr/bin
+    rm -rf xbot
+    rm -rf xbot.zip
+    rm -rf bot
+    rm -rf bot.zip
+    rm -rf bot-backup
+    rm -rf bot-cek-login-ssh
+    rm -rf bot-cek-ss
+    rm -rf bot-cek-tr
+    rm -rf bot-cek-vless
+    rm -rf bot-cek-ws
+    rm -rf bot-member-ssh
+    rm -rf setting.py
+    rm -rf bot-restore
+    rm -rf bot-vps-info
+}
+netfilter-persistent
+clear
+baris_panjang
+echo -e "${ungu}            DELETE BOT           ${Xark}"
+baris_panjang
+echo -e ""
+echo -e "  \033[1;91m hapus bot service\033[1;37m"
+fun_bar 'res1'
+baris_panjang
+echo -e ""
+read -n 1 -s -r -p "Press [ Enter ] to back on menu"
+menu
+
+###########- COLOR CODE -##############

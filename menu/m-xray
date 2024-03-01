@@ -1,0 +1,186 @@
+#!/bin/bash
+
+BlueCyan='\e[5;36m'
+Xark='\e[0m'
+ungu='\033[0;35m'
+yellow='\e[33m'
+WhiteBe='\e[5;37m'
+GreenBe='\e[5;32m'
+BlueCyan='\e[5;36m'
+Xark='\e[0m'
+r="\033[1;91m"
+BG_BLU="\033[44;1m" # BG BIRU
+GREN="\033[0;32m"
+clear
+
+function baris_panjang() {
+  echo -e "${BlueCyan} ———————————————————————————————————————${Xark}"
+}
+function ATAS() {
+  echo -e     " ${BG_BLU}                  XRAY                 ${Xark} "
+}
+function xVMESS() {
+  echo -e     " ${BG_BLU}               XRAY VMESS              ${Xark} "
+}
+function xVLESS() {
+  echo -e     " ${BG_BLU}               XRAY VLESS              ${Xark} "
+}
+# . 1 Membuat Account Vmess
+function Create_Account() {
+  add-vme
+}
+
+# . 2 Membuat Account Triall Vmess
+function Create_Trial() {
+  trial-vme
+}
+
+# . 3 Menghapus Account Vmess
+function Delete_Account() {
+  del-vme
+}
+
+# . 4 Melihat Daftar Member
+function List_Member() {
+  member-vme
+}
+
+# . 5  Me Renew Account
+function Renew_Account() {
+  renew-vme
+}
+
+# . 6 Melihat details Account
+function Check_Account() {
+  cek-vme
+}
+
+# . 7  Merubah Quota Usee Vmess
+function Changes_Limit_Quota() {
+  change-vmess-qouta
+}
+# . 8 Meeubah Ip Limit User Vmess
+function Change_Ip_Vmess() {
+  ganti-ip-vmess
+}
+
+# . 9 Merubah Limit Ip Xray
+function Changes_Limit_Xray() {
+  change-limit-xray
+}
+
+# . Banner Vmess
+function Banner() {
+  baris_panjang
+  ATAS
+  baris_panjang
+}
+# . 1
+function Create_Vless1() {
+  add-vle
+}
+
+# . 2
+function Create_Trial1() {
+  trial-vle
+}
+
+# . 4
+function List_Member1() {
+  member-vle
+}
+
+# . 3
+function Delete_Exp1() {
+  del-vle
+}
+
+function Changes_Limit1() {
+  limit-Vless
+}
+
+# . 5 
+function Renew_Vless1() {
+  renew-vle
+}
+
+# . 6 
+function Check_Account1() {
+  user-vle
+}
+
+# . 7 
+function Change_Ip_Limit1() {
+  ganti-ip-vless
+}
+
+# . 8 
+function Change_Vless_Quota1() {
+  change-vless-qouta
+}
+
+
+# . Daftar Menu Vmess
+function Menu_Features() {
+  baris_panjang
+  echo -e ""
+  echo -e "  1.)  Check Users Login"
+  echo -e "  2.)  List Member" 
+  baris_panjang
+  xVMESS               
+  baris_panjang
+  echo -e "  3.)  Create Account Vmess"
+  echo -e "  4.)  Trial Account Vmess"
+  echo -e "  5.)  Delete Account Vmess"
+  echo -e "  6.)  Renew Account Vmess"
+  echo -e "  7.)  Check Config Account ${yellow}(COMINGSOON)${Xark}"
+  echo -e "  8.)  Recovery Account ${yellow}(COMINGSOON)${Xark}"
+  echo -e "  9.)  Edit Limit IP Account"
+  echo -e " 10.)  Edit Limit IP All Account ${yellow}(COMINGSOON)${Xark}"
+  echo -e " 11.)  Edit Limit Bandwidth Account"
+  echo -e " 12.)  Delete All Recovery ${yellow}(COMINGSOON)${Xark}"
+  echo -e " 13.)  Unlock Account ${yellow}(COMINGSOON)${Xark}"
+  baris_panjang
+  xVLESS              
+  baris_panjang
+  echo -e " 14.)  Create Account Vless"
+ echo " 15.)  Trial Account Vless"
+ echo " 16.)  Delete Account Vless"
+ echo " 17.)  Renew Account Vless"
+ echo -e " 18.)  Check Config Account ${yellow}(COMINGSOON)${Xark}"
+ echo -e " 19.)  Recovery Account ${yellow}(COMINGSOON)${Xark}"
+ echo -e " 20.)  Edit Limit IP Account"
+ echo -e " 21.)  Edit Limit IP All Account ${yellow}(COMINGSOON)${Xark}"
+ echo -e " 22.)  Edit Limit Bandwidth Account"
+ echo -e " 23.)  Delete All Recovery ${yellow}(COMINGSOON)${Xark}"
+ echo -e " 24.)  Unlock Account ${yellow}(COMINGSOON)${Xark}"
+ baris_panjang
+ echo -e " 25.)  Back to Menu"
+ echo "  x.)  Exit"
+ echo " "
+ baris_panjang
+ baris_panjang
+}
+
+Banner
+Menu_Features
+read -p "Select From Options [1-25 or x] :  " Ltt
+case $Ltt in
+1) clear ; Check_Account ;;
+2) clear ; List_Member ;;
+3) clear ; Create_Account ;;
+4) clear ; Create_Trial ;;
+5) clear ; Delete_Account ;;
+6) clear ; Renew_Account ;;
+9) clear ; Change_Ip_Vmess ;;
+11) clear ; Changes_Limit_Quota ;;
+14) clear ; Create_Vless1 ;;
+15) clear ; Create_Trial1 ;;
+16) clear ; Delete_Vless1 ;;
+17) clear ; Renew_Account1 ;;
+20) clear ; Change_Ip_Limit1 ;;
+22) clear ; Change_Vless_Quota1 ;;
+25) clear ; menu ;;
+*) m-xray ;;
+x) exit ;;
+esac

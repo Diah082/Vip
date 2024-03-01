@@ -1,0 +1,69 @@
+#!/bin/bash
+
+BlueCyan="\033[5;36m"
+WhiteBe="\033[5;37m"
+yellow="\033[0;33m"
+ungu="\033[0;35m"
+Xark="\033[0m"
+BlueCyan="\033[5;36m"
+WhiteBe="\033[5;37m"
+# . Liner 
+function baris_panjang() {
+  echo -e "${BlueCyan} ———————————————————————————————————————${Xark}"
+}
+
+function Lunatic_Banner() {
+clear
+baris_panjang
+echo -e "${ungu}            NEWBIE STORE        ${Xark} "
+baris_panjang
+}
+
+
+
+function change_vmess_quota() {
+Lunatic_Banner
+echo -e ""
+read -p "Input UserName: " user
+baris_panjang
+  quota_file="/etc/vless/${user}"
+
+  # Validasi apakah file kuota sudah ada
+  if [ -e "$quota_file" ]; then
+    current_quota=$(cat "$quota_file")
+    echo "Kuota saat ini untuk pengguna $user: $((current_quota / 1024 / 1024 / 1024)) GB"
+
+read -p "Input New Quota : " new_quota
+baris_panjang
+sleep 1
+clear
+
+    # Validasi jika masukan kosong atau tidak valid
+    if [[ -z "$new_quota" || ! "$new_quota" =~ ^[0-9]+$ ]]; then
+      echo "Masukan tidak valid. Kuota tidak berubah."
+    else
+
+      # Konversi kuota ke byte
+      new_quota_bytes=$((new_quota * 1024 * 1024 * 1024))
+      echo "${new_quota_bytes}" > "${quota_file}"
+      
+      baris_panjang # garis
+      echo -e "${GreenBe}Succesfuly New So $new_quota GB In  $user. ${Xark}"
+      Sc_Credit # Banner Lunatic
+
+      # Hapus entri lama dan tambahkan yang baru ke dalam database
+      DATADB=$(cat /etc/trojan/.trojan.db | grep "^###" | grep -w "${user}" | awk '{print $2}')
+      if [[ "${DATADB}" != '' ]]; then
+        sed -i "/\b${user}\b/d" /etc/trojan/.trojan.db
+      fi
+      echo "### ${user} ${exp} ${uuid} ${new_quota_bytes} ${iplimit}" >>/etc/trojan/.trojan.db
+
+      echo -e "\033[5;32m Succesfully ${Xark}."
+    fi
+  else
+    echo "Wrong Quota in $user."
+  fi
+}
+
+# Panggil fungsi untuk mengganti kuota VMess
+change_vmess_quota

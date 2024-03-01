@@ -1,0 +1,166 @@
+#!/bin/bash
+
+BlueCyan='\e[5;36m'
+Xark='\e[0m'
+ungu='\033[0;35m'
+yellow='\e[33m'
+WhiteBe='\e[5;37m'
+GreenBe='\e[5;32m'
+BlueCyan='\e[5;36m'
+BLUE="\033[4;34m"
+BG_BLU="\033[44;1m" # BG BIRU
+Xark='\e[0m'
+GREN="\033[0;32m"
+clear
+
+function baris_panjang() {
+  echo -e "${BlueCyan} ———————————————————————————————————————${Xark}"
+}
+function ATAS() {
+  echo -e     "${ungu}         SSH-Dropbear-OpenVPN           ${Xark} "
+}
+function  MEMBER() {
+  echo -e  " ${BG_BLU}                MEMBER                 ${Xark}"
+}
+function  LOCK_UNLOCK() {
+  echo -e  " ${BG_BLU}             LOCK & UNLOCK             ${Xark}"
+}
+function  LIMIT() {
+  echo -e  " ${BG_BLU}                 LIMIT                 ${Xark}"
+}
+function  OTHER() {
+  echo -e  " ${BG_BLU}                 OTHER                 ${Xark}"
+}
+
+# . Create Ssh
+function Create_Ssh() {
+  add-ssh
+}
+
+# . Create Triall
+function Create_Trial() {
+  trial-ssh
+}
+
+# . Hapus akun ssh
+function Delete_Ssh(){
+  del-ssh
+}
+
+# . List Member ssh
+function List_Member() {
+  member-ssh
+}
+
+# . Auto Kill ssh
+function Auto_Kill() {
+  auto-kill
+}
+
+# . Check user Login
+function Check_Mullog() {
+  ceklim
+}
+
+# . Delete Expiry
+function Delete_Exp() {
+  delexp
+}
+
+# . Changes Limit
+function Changes_Limit() {
+  Lt-on-off
+}
+
+# . Limit On off
+function Limit_On_Off() {
+  limit-on-off
+}
+
+#. Renew Ssh
+function Renew_Ssh() {
+  renew-ssh
+}
+
+# . Lock Ssh
+function Lock() {
+  lock
+}
+
+# . Unlock Ssh
+function Unlock() {
+  unlock
+}
+
+# . Detail Akun Ssh
+function Details_Account(){
+  user-ssh
+}
+
+function Monitor_Ssh() {
+  cek-ssh
+}
+
+# . Banner Ssh
+function Banner() {
+  baris_panjang
+  ATAS
+  baris_panjang
+}
+function Menu_Features() {
+  baris_panjang
+  echo -e ""
+  echo -e "  1.)  Check Users Login"
+  echo -e "  2.)  Create Accounts"
+  echo -e "  3.)  Delete Accounts"
+  echo -e "  4.)  Renew Accounts"
+  echo -e "  5.)  Trial Accounts"
+  baris_panjang
+  MEMBER
+  baris_panjang
+  echo -e "  6.)  List Member Accounts"
+  echo -e "  7.)  List Expired Accounts"
+  baris_panjang
+  LOCK_UNLOCK
+  baris_panjang
+  echo -e "  8.)  Lock Accounts"
+  echo -e "  9.)  Unlock Accounts"
+  baris_panjang
+  LIMIT
+  baris_panjang
+  echo -e " 10.) Edit Limit IP Account"
+  echo -e " 11.) Limit IP On Off Accounts"
+  baris_panjang
+  OTHER
+  baris_panjang
+  echo -e " 12.) Check MultiLogin "
+  echo -e " 13.) Auto Kill Accounts"
+  baris_panjang
+  echo -e " 14.) Back to Menu"
+  echo -e "  x.)  Exit"
+  echo -e " "
+  baris_panjang
+  baris_panjang
+}
+
+Banner
+Menu_Features
+read -p "Select From Options [1-14 or x] :  " Ltt
+case $Ltt in
+1) clear ; Monitor_Ssh ;;
+2) clear ; Create_Ssh ;;
+3) clear ; Delete_Ssh ;;
+4) clear ; Renew_Ssh ;;
+5) clear ; Create_Trial ;;
+6) clear ; List_Member ;;
+7) clear ; Delete_Exp ;;
+8) clear ; Lock ;;
+9) clear ; Unlock ;;
+10) clear ; Changes_Limit ;;
+11) clear ; Limit_On_Off ;;
+12) clear ; Check_Mullog ;;
+13) clear ; Auto_Kill ;;
+14) clear ; menu ;;
+x) exit ;;
+*) m-ssh ;;
+esac

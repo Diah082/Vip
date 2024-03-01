@@ -1,0 +1,106 @@
+#!/bin/bash
+
+BlueCyan='\e[5;36m'
+Xark='\e[0m'
+ungu='\033[0;35m'
+yellow='\e[33m'
+WhiteBe='\e[5;37m'
+GreenBe='\e[5;32m'
+BlueCyan='\e[5;36m'
+Xark='\e[0m'
+BG_BLU="\033[44;1m" # BG BIRU
+GREN="\033[0;32m"
+clear
+
+function baris_panjang() {
+  echo -e "${BlueCyan} ———————————————————————————————————————${Xark}"
+}
+function ATAS() {
+  echo -e   " ${BG_BLU}                 TROJAN                ${Xark}"
+}
+function UTILITIES() {
+  echo -e   " ${BG_BLU}                UTILITIES              ${Xark}"
+}
+
+# . 1
+function Create_Account() {
+  add-tro
+}
+# . 2
+function Create_Trial() {
+  trial-tro
+}
+# . 3
+function Delete_Account() {
+  del-tro
+}
+# . 4
+function List_Member() {
+  member-tro
+}
+# . 5
+function Renew_Account() {
+  renew-tro
+}
+# . 6
+function Changes_Limit() {
+  ganti-ip-trojan
+}
+# . 7 
+function Check_Account() {
+  cek-tro
+}
+# . 8 
+function Check_Details_Account() {
+  user-tro
+}
+
+# Banner
+function Banner() {
+  baris_panjang
+  ATAS
+  baris_panjang
+}
+
+# Menu
+function Menu_Features() {
+  baris_panjang
+  echo -e ""
+  echo -e "   1.)  Create Account Trojan"
+  echo -e "   2.)  Trial Account Trojan"
+  echo -e "   3.)  Delete Account Trojan"
+  echo -e "   4.)  Renew Account Trojan"
+ baris_panjang
+ UTILITIES                
+ baris_panjang
+  echo -e "   5.)  Check Config Account"
+  echo -e "   6.)  Recovery Account ${yellow}(COMINGSOON)${Xark}"
+  echo -e "   7.)  Edit Limit IP Account"
+  echo -e "   8.)  Edit Limit IP All Account ${yellow}(COMINGSOON)${Xark}"
+  echo -e "   9.)  Edit Limit Bandwidth Account ${yellow}(COMINGSOON)${Xark}"
+  echo -e "  10.)  Check Users Login ${yellow}(COMINGSOON)${Xark}"
+  echo -e "  11.)  List Member"
+  echo -e "  12.)  Delete All Recovery ${yellow}(COMINGSOON)${Xark}"
+  echo -e "  13.)  Unlock Account ${yellow}(COMINGSOON)${Xark}"
+  echo -e "  14.)  Back to Menu"
+  echo -e "   x.)  Exit"
+  echo -e " "
+  baris_panjang
+  baris_panjang
+}
+
+Banner
+Menu_Features
+read -p "Select From Options [1-14 or x] :  " Ltt
+case $Ltt in
+1) clear ; Create_Account ;;
+2) clear ; Create_Trial ;;
+3) clear ; Delete_Account ;;
+4) clear ; Renew_Account ;;
+5) clear ; Check_Account ;;
+7) clear ; Changes_Limit ;;
+11) clear ; List_Member ;;
+14) clear ; menu ;;
+*) m-tro ;;
+x) exit ;;
+esac

@@ -1,0 +1,293 @@
+#!/bin/bash
+Green="\033[0;32m"
+RED="\033[31m"
+YELLOW="\033[33m"
+BLUE="\033[36m"
+FONT="\033[0m"
+GREENBG="\033[42;37m"
+
+REDBG="\033[41;37m"
+OK="${Green}--->${FONT}"
+ERROR="${RED}[ERROR]${FONT}"
+GRAY="\e[1;30m"
+BG_BLU="\033[44;1m" # BG BIRU
+BlueCyan='\e[5;36m'
+Xark='\e[0m'
+GREN="\033[0;32m"
+red='\e[1;31m'
+green='\e[0;32m'
+DF='\e[39m'
+Bold='\e[1m'
+Blink='\e[5m'
+yell='\e[33m'
+red='\e[31m'
+green='\e[32m'
+blue='\e[34m'
+PURPLE='\e[35m'
+cyan='\e[36m'
+Lred='\e[91m'
+Lgreen='\e[92m'
+Lyellow='\e[93m'
+BG_BLU="\033[44;1m" # BG BIRU
+BlueCyan='\e[5;36m'
+Xark='\e[0m'
+GREN="\033[0;32m"
+GREEN='\033[0;32m'
+ORANGE='\033[0;33m'
+LIGHT='\033[0;37m'
+grenbo="\e[92;1m"
+yellow="\033[0;33m"
+ungu="\033[0;35m"
+Red="\033[91;1m"
+Xark="\033[0m"
+BlueCyan="\033[5;36m"
+WhiteBe="\033[5;37m"
+GreenBe="\033[5;32m"
+YellowBe="\033[5;33m"
+BlueBe="\033[5;34m"
+clear
+
+PUB=$(cat /etc/slowdns/server.pub)
+NS=$(cat /etc/xray/dns)
+CITY=$(cat /etc/xray/city)
+clear
+NUMBER_OF_CLIENTS=$(grep -c -E "^### " "/etc/xray/config.json")
+        if [[ ${NUMBER_OF_CLIENTS} == '0' ]]; then
+    echo -e "\033[1;36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+    echo -e " \e[1;97;101m         CONFIG VMESS ACCOUNT           \e[0m"
+    echo -e "\033[1;36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+    echo ""
+    echo "You have no existing clients!"
+    echo ""
+    echo -e "\033[1;36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+    read -n 1 -s -r -p "Press [ Enter ] to back on menu vmess"
+    vmess
+fi
+
+  echo -e "\033[1;36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+  echo -e "  \e[1;97;101m        CONFIG VMESS ACCOUNT         \E[0m"
+  echo -e "\033[1;36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+        echo "     No  Expired   User"
+        grep -E "^### " "/etc/xray/config.json" | cut -d ' ' -f 2-3 | nl -s ') '
+        until [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; do
+                if [[ ${CLIENT_NUMBER} == '1' ]]; then
+                        read -rp "Select one client [1]: " CLIENT_NUMBER
+                else
+                        read -rp "Select one client [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
+                fi
+        done
+
+# . Liner 
+function baris_panjang() {
+  echo -e "${BlueCyan} ———————————————————————————————————————————————${Xark}"
+}
+function Lunatic_Banner() {
+clear
+baris_panjang
+echo -e       "${ungu}                   NEWBIE STORE                 ${Xark}"
+baris_panjang
+}
+function vmess_Banner() {
+clear
+baris_panjang
+echo -e       "${ungu}                   XRAY VMESS                   ${Xark}"
+baris_panjang
+}
+function Sc_Credit(){
+sleep 1
+baris_panjang
+echo -e       "${ungu}          Terimakasih sudah menggunakan-       ${Xark}"
+echo -e       "${ungu}         Script Credit By  NEWBIE STORE        ${Xark}"
+baris_panjang
+read -n 1 -s -r -p "Press [ Enter ] to back on menu"
+menu
+}
+
+user=$(grep -E "^### " "/etc/xray/config.json" | cut -d ' ' -f 2 | sed -n "${CLIENT_NUMBER}"p)
+
+domain=$(cat /etc/xray/domain)
+iplim=$(cat /etc/kyt/limit/vmess/ip/$user)
+#Quota=$(cat /etc/vmess/$user)
+#ARI PROJECT
+ISP=$(cat /etc/xray/isp)
+CITY=$(cat /etc/xray/city)
+
+  quota_file="/etc/vmess/${user}"
+
+  # Validasi apakah file kuota sudah ada
+  if [ -e "$quota_file" ]; then
+    current_quota=$(cat "$quota_file")
+
+uuid=$(grep -E "^### " "/etc/vmess/.vmess.db" | cut -d ' ' -f 4 | sed -n "${CLIENT_NUMBER}"p)
+#Quota=$(grep -E "^### " "/etc/vmess/.vmess.db" | cut -d ' ' -f 6 | sed -n "${CLIENT_NUMBER}"p)
+#Quota=echo "### ${user} ${exp} ${uuid} ${quota} ${iplimit}" >>/etc/vmess/.vmess.db
+exp=$(grep -E "^### " "/etc/xray/config.json" | cut -d ' ' -f 3 | sed -n "${CLIENT_NUMBER}"p)
+hariini=`date -d "0 days" +"%Y-%m-%d"`
+asu=`cat<<EOF
+      {
+      "v": "2",
+      "ps": "${user}",
+      "add": "${domain}",
+      "port": "443",
+      "id": "${uuid}",
+      "aid": "0",
+      "net": "ws",
+      "path": "/vmess",
+      "type": "none",
+      "host": "${domain}",
+      "tls": "tls"
+}
+EOF`
+ask=`cat<<EOF
+      {
+      "v": "2",
+      "ps": "${user}",
+      "add": "${domain}",
+      "port": "80",
+      "id": "${uuid}",
+      "aid": "0",
+      "net": "ws",
+      "path": "/vmess",
+      "type": "none",
+      "host": "${domain}",
+      "tls": "none"
+}
+EOF`
+grpc=`cat<<EOF
+      {
+      "v": "2",
+      "ps": "${user}",
+      "add": "${domain}",
+      "port": "443",
+      "id": "${uuid}",
+      "aid": "0",
+      "net": "grpc",
+      "path": "vmess-grpc",
+      "type": "none",
+      "host": "${domain}",
+      "tls": "tls"
+}
+EOF`
+cat >/var/www/html/vmess-$user.txt <<-END
+
+◇━━━━━━━━━━━━━━━━━◇
+ Dragon Emperor Tunneling 
+◇━━━━━━━━━━━━━━━━━◇
+# Format Vmess WS TLS
+
+- name: Vmess-$user-WS TLS
+  type: vmess
+  server: ${domain}
+  port: 443
+  uuid: ${uuid}
+  alterId: 0
+  cipher: auto
+  udp: true
+  tls: true
+  skip-cert-verify: true
+  servername: ${domain}
+  network: ws
+  ws-opts:
+    path: /vmess
+    headers:
+      Host: ${domain}
+
+# Format Vmess WS Non TLS
+
+- name: Vmess-$user-WS Non TLS
+  type: vmess
+  server: ${domain}
+  port: 80
+  uuid: ${uuid}
+  alterId: 0
+  cipher: auto
+  udp: true
+  tls: false
+  skip-cert-verify: false
+  servername: ${domain}
+  network: ws
+  ws-opts:
+    path: /vmess
+    headers:
+      Host: ${domain}
+
+# Format Vmess gRPC
+
+- name: Vmess-$user-gRPC (SNI)
+  server: ${domain}
+  port: 443
+  type: vmess
+  uuid: ${uuid}
+  alterId: 0
+  cipher: auto
+  network: grpc
+  tls: true
+  servername: ${domain}
+  skip-cert-verify: true
+  grpc-opts:
+    grpc-service-name: vmess-grpc
+
+◇━━━━━━━━━━━━━━━━━◇
+ Link Akun Vmess                   
+◇━━━━━━━━━━━━━━━━━◇
+Link TLS         : 
+${vmesslink1}
+◇━━━━━━━━━━━━━━━━━◇
+Link none TLS    : 
+${vmesslink2}
+◇━━━━━━━━━━━━━━━━━◇
+Link GRPC        : 
+${vmesslink3}
+◇━━━━━━━━━━━━━━━━━◇
+
+END
+vmesslink1="vmess://$(echo $asu | base64 -w 0)"
+vmesslink2="vmess://$(echo $ask | base64 -w 0)"
+vmesslink3="vmess://$(echo $grpc | base64 -w 0)"
+
+clear
+
+#ARI PROJECT
+function Details_Account() {
+echo -e "${WhiteBe}"
+echo -e " VMESS XRAY "
+echo -e ""
+echo -e " Remarks       : ${user}"
+echo -e " Domain        : ${domain}"
+echo -e " User Quota    : ${quota_file} GB"
+echo -e " User Ip       : ${iplim} IP"
+echo -e " Port TLS      : 400,8443"
+echo -e " port WS       : 80,8880,8080,2082"
+echo -e " Key           : ${uuid}"
+echo -e " Localtions    : $CITY"
+echo -e " ISP           : $ISP"
+echo -e " AlterId       : 0"
+echo -e " Security      : auto"
+echo -e " Network       : ws"
+echo -e " Path          : /vmess"
+echo -e " Dynamic Path  : https://bugmu.com/vmess"
+echo -e " ServiceName   : vmess-grpc"
+echo -e "${Xark}"
+}
+baris_panjang
+function Link_Json() {
+echo -e " Link TLS      : ${vmesslink1}"
+baris_panjang
+echo -e " Link WS       : ${vmesslink2}"
+baris_panjang
+echo -e " Link GRPC     : ${vmesslink3}"
+baris_panjang
+echo -e " OpenClash     : https://${domain}:81/vmess-$user.txt"
+baris_panjang
+}
+
+function Details_Expiry() {
+echo -e "${yellow}                Expired        : $exp ${Xark}"
+baris_panjang
+}
+
+Lunatic_Banner
+Details_Account
+Link_Json
+Details_Expiry
+Sc_Credit

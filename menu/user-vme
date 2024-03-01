@@ -1,0 +1,276 @@
+#!/bin/bash
+clear
+
+PUB=$(cat /etc/slowdns/server.pub)
+NS=$(cat /etc/xray/dns)
+CITY=$(cat /etc/xray/city)
+clear
+
+yellow="\033[0;33m"
+ungu="\033[0;35m"
+Red="\033[91;1m"
+Cyan="\033[96;1m"
+Xark="\033[0m"
+BlueCyan="\033[5;36m"
+WhiteBe="\033[5;37m"
+GreenBe="\033[5;32m"
+YellowBe="\033[5;33m"
+BlueBe="\033[5;34m"
+# . Liner 
+function baris_panjang() {
+  echo -e "${BlueCyan} ———————————————————————————————————————————————${Xark}"
+}
+function Lunatic_Banner() {
+clear
+baris_panjang
+echo -e       "${ungu}                   NEWBIE STORE                 ${Xark}"
+baris_panjang
+}
+
+function Sc_Credit(){
+sleep 1
+baris_panjang
+echo -e       "${ungu}          Terimakasih sudah menggunakan-       ${Xark}"
+echo -e       "${ungu}         Script Credit By  NEWBIE STORE        ${Xark}"
+baris_panjang
+exit 1
+}
+
+duration=6
+frames=("██10%" "█████35%" "█████████65%" "█████████████80%" "█████████████████████90%" "█████████████████████████100%")
+
+# Menghitung jumlah frame
+num_frames=${#frames[@]}
+
+# Menghitung jumlah iterasi
+num_iterations=$((duration))
+
+# Fungsi untuk menampilkan animasi loading berwarna
+
+Loading_Animasi() {
+    for ((i = 0; i < num_iterations; i++)); do
+        clear
+        index=$((i % num_frames))
+        color_code=$((31 + i % 7))
+echo ""
+echo ""
+echo ""
+echo -e "\e[1;${color_code}m ${frames[$index]}\e[0m"
+sleep 0.5
+    done
+}
+
+# Menampilkan pesan Sukses setelah animasi selesai
+function Loading_Succes() {
+clear
+echo -e  "\033[5;32mSucces\033[0m"
+sleep 1
+clear
+}
+
+
+
+NUMBER_OF_CLIENTS=$(grep -c -E "^### " "/etc/xray/config.json")
+        if [[ ${NUMBER_OF_CLIENTS} == '0' ]]; then
+    Lunatic_Banner
+    baris_panjang
+    echo -e "${Red} Sorry ${Xark} "
+    echo ""
+    echo "You have no existing clients!"
+    echo ""
+    baris_panjang
+    Sc_Credit
+    read -n 1 -s -r -p "Press [ Enter ] to back on menu vmess"
+    vmess
+fi
+
+  baris_panjang
+  echo -e "  \e[1;97;101m        CONFIG VMESS ACCOUNT         \E[0m"
+  baris_panjang
+        echo -e "${yellow}     No  ${Xark} "
+        grep -E "^### " "/etc/xray/config.json" | cut -d ' ' -f 2-3 | nl -s ') '
+        until [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; do
+                if [[ ${CLIENT_NUMBER} == '1' ]]; then
+                        read -rp "Select one client [1]: " CLIENT_NUMBER
+                else
+baris_panjang
+baris_panjang
+                        read -rp "Select one client [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
+                        Loading_Animasi
+                fi
+        done
+user=$(grep -E "^### " "/etc/xray/config.json" | cut -d ' ' -f 2 | sed -n "${CLIENT_NUMBER}"p)
+domain=$(cat /etc/xray/domain)
+iplim=$(cat /etc/kyt/limit/vmess/ip/$user)
+Quota=$(cat /etc/vmess/$user)
+uuid=$(grep -E "^### " "/etc/vmess/.vmess.db" | cut -d ' ' -f 4 | sed -n "${CLIENT_NUMBER}"p)
+#Quota=$(grep -E "^### " "/etc/xray/config.json" | cut -d ' ' -f 5 | sed -n "${CLIENT_NUMBER}"p)
+exp=$(grep -E "^### " "/etc/xray/config.json" | cut -d ' ' -f 3 | sed -n "${CLIENT_NUMBER}"p)
+hariini=`date -d "0 days" +"%Y-%m-%d"`
+asu=`cat<<EOF
+      {
+      "v": "2",
+      "ps": "${user}",
+      "add": "${domain}",
+      "port": "443",
+      "id": "${uuid}",
+      "aid": "0",
+      "net": "ws",
+      "path": "/vmess",
+      "type": "none",
+      "host": "${domain}",
+      "tls": "tls"
+}
+EOF`
+ask=`cat<<EOF
+      {
+      "v": "2",
+      "ps": "${user}",
+      "add": "${domain}",
+      "port": "80",
+      "id": "${uuid}",
+      "aid": "0",
+      "net": "ws",
+      "path": "/vmess",
+      "type": "none",
+      "host": "${domain}",
+      "tls": "none"
+}
+EOF`
+grpc=`cat<<EOF
+      {
+      "v": "2",
+      "ps": "${user}",
+      "add": "${domain}",
+      "port": "443",
+      "id": "${uuid}",
+      "aid": "0",
+      "net": "grpc",
+      "path": "vmess-grpc",
+      "type": "none",
+      "host": "${domain}",
+      "tls": "tls"
+}
+EOF`
+cat >/var/www/html/vmess-$user.txt <<-END
+
+◇━━━━━━━━━━━━━━━━━◇
+  NEWBIE STORE VPN  
+◇━━━━━━━━━━━━━━━━━◇
+# Format Vmess WS TLS
+
+- name: Vmess-$user-WS TLS
+  type: vmess
+  server: ${domain}
+  port: 443
+  uuid: ${uuid}
+  alterId: 0
+  cipher: auto
+  udp: true
+  tls: true
+  skip-cert-verify: true
+  servername: ${domain}
+  network: ws
+  ws-opts:
+    path: /vmess
+    headers:
+      Host: ${domain}
+
+# Format Vmess WS Non TLS
+
+- name: Vmess-$user-WS Non TLS
+  type: vmess
+  server: ${domain}
+  port: 80
+  uuid: ${uuid}
+  alterId: 0
+  cipher: auto
+  udp: true
+  tls: false
+  skip-cert-verify: false
+  servername: ${domain}
+  network: ws
+  ws-opts:
+    path: /vmess
+    headers:
+      Host: ${domain}
+
+# Format Vmess gRPC
+
+- name: Vmess-$user-gRPC (SNI)
+  server: ${domain}
+  port: 443
+  type: vmess
+  uuid: ${uuid}
+  alterId: 0
+  cipher: auto
+  network: grpc
+  tls: true
+  servername: ${domain}
+  skip-cert-verify: true
+  grpc-opts:
+    grpc-service-name: vmess-grpc
+
+◇━━━━━━━━━━━━━━━━━◇
+ Link Akun Vmess                   
+◇━━━━━━━━━━━━━━━━━◇
+Link TLS         : 
+${vmesslink1}
+◇━━━━━━━━━━━━━━━━━◇
+Link none TLS    : 
+${vmesslink2}
+◇━━━━━━━━━━━━━━━━━◇
+Link GRPC        : 
+${vmesslink3}
+◇━━━━━━━━━━━━━━━━━◇
+
+END
+vmesslink1="vmess://$(echo $asu | base64 -w 0)"
+vmesslink2="vmess://$(echo $ask | base64 -w 0)"
+vmesslink3="vmess://$(echo $grpc | base64 -w 0)"
+
+clear
+echo -e ""
+
+function Details_Account() {
+echo -e " VMESS "
+echo -e ""
+echo -e "Remarks      : ${user}"
+echo -e "Domain       : ${domain}"
+echo -e "User Quota   : ${Quota} GB"
+echo -e "User Ip      : ${iplimit} IP"
+echo -e "Port TLS     : 400-900"
+echo -e "Port  WS     : 80, 8080, 8081-9999"
+echo -e "id           : ${uuid}"
+echo -e "alterId      : 0"
+echo -e "Security     : auto"
+echo -e "Network      : ws"
+echo -e "Path         : /Multi-Path"
+echo -e "Dynamic      : https://bugmu.com/path"
+echo -e "ServiceName  : vmess-grpc"
+
+}
+function Link_Json() {
+baris_panjang
+echo -e " Link TLS   : ${vmesslink1}"
+baris_panjang
+echo -e " Link  WS   : ${vmesslink2}"
+baris_panjang
+echo -e " Link GRPC  : ${vmesslink3}"
+baris_panjang
+echo -e " OpenClash  : https://${domain}:81/vmess-$user.txt"
+baris_panjang
+
+}
+
+function Details_Expiry() {
+echo -e "${yellow}                Expired : $masaaktif Days ${Days} "
+
+}
+echo ""
+
+Lunatic_Bannr
+Details_Account
+Link_Json
+Details_Expiry
+Sc_Credit
