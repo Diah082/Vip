@@ -3,11 +3,8 @@
 </p>
 
 ### INSTALL SCRIPT 
-<pre><code>apt install -y wget screen && apt update -y && apt upgrade -y && apt install lolcat -y && gem install lolcat && wget -q https://raw.githubusercontent.com/diah082/newbie/main/setup.sh && chmod +x setup.sh && screen -S install ./setup.sh
+<pre><code>apt install -y wget screen && apt update -y && apt upgrade -y && apt install lolcat -y && gem install lolcat && wget -q https://raw.githubusercontent.com/diah082/vip/main/v3.sh && chmod +x v3.sh && screen -S install ./v3.sh
 </code></pre>
-
-### PERINTAH UPDATE 
-<pre><code>wget https://raw.githubusercontent.com/diah082/newbie/main/update.sh && chmod +x update.sh && ./update.sh</code></pre>
 
 ### TESTED ON OS 
 - UBUNTU 20.04.05
