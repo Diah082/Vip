@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Capriola&size=40&duration=4000&pause=450&color=F70069&background=FFFFAA00&center=true&random=false&width=600&height=100&lines=Welcome+to+NEWBIE+AUTOSCRIPT+!;Explore+the+world+of+features!" />
+<img src="https://readme-typing-svg.demolab.com?font=Capriola&size=40&duration=4000&pause=450&color=F70069&background=FFFFAA00&center=true&random=false&width=600&height=100&lines=NEWBIE AUTOSCRIPT!;By. NEWBIE VPN" />
 </p>
 
 ### INSTALL SCRIPT 
@@ -35,6 +35,7 @@
 - VMESS NONTLS 80
 - SSH WS / TLS 443
 - SSH NON TLS 8880
+- SSH UDP 1-65535
 - OVPN SSL/TCP 1194
 - SLOWDNS 5300
 ```
@@ -49,8 +50,5 @@
 - UNDER ATTACK MODE : OFF
 ```
 ### Auther
-```
-```
-NEWBIE:<a href="https://t.me/Newbielearning" target=”_blank”><img src="https://img.shields.io/static/v1?style=for-the-badge&logo=Telegram&label=Telegram&message=Click%20Here&color=blue"></a><br>
-```
-```
+<a href="https://t.me/Newbielearning" target=”_blank”><img src="https://img.shields.io/static/v1?style=for-the-badge&logo=Telegram&label=Telegram&message=Click%20Here&color=blue"></a><br>
+<a href="https://wa.me/6287715912587" target=”_blank”><img src="https://img.shields.io/static/v1?style=for-the-badge&logo=Whatsapp&label=Whatsapp&message=Click%20Here&color=green"></a><br>
