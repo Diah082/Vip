@@ -8,9 +8,6 @@ CITY=$(cat /etc/xray/city)
 echo ""
 clear
 ######################################
-# // INSTALL UDP CUSTOM
-UDPX="https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1S3IE25v_fyUfCLslnujFBSBMNunDHDk2' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1S3IE25v_fyUfCLslnujFBSBMNunDHDk2"
-######################################
 green="\033[0;32m"
 red="\033[1;31m"
 WH="\033[97m"
@@ -187,7 +184,7 @@ vers="3.1 LTS"
 function Lunatic_Banner() {
 clear
 echo -e "┌─────────────────────────────────────────────────┐${Xark} "
-echo -e "  ${BG_RED}                  NEWBIE STORE                 ${Xark} "
+echo -e "  ${BG_BLU}                  NEWBIE STORE                 ${Xark} "
 echo -e "└─────────────────────────────────────────────────┘${Xark} "
 }
 
@@ -235,7 +232,7 @@ echo -e "   └─────────────────────�
 
 function Acces_Use_Command() {
 echo -e " ————————————————————————————————————————————————— ${Xark} "
-echo -e "             acces use ${Orange}☞${Xark} ${green}menu${Xark} command " 
+echo -e "             acces use ${Orange}☞${Xark} ${yellow}menu${Xark} command " 
 echo -e " ————————————————————————————————————————————————— ${Xark} "
 
 }

@@ -1,0 +1,480 @@
+#!/bin/bash
+######################################
+MYIP=$(curl -sS ipv4.icanhazip.com)
+######################################
+#IPVPS=$(curl -s ipv4.icanhazip.com)
+#ISP=$(cat /etc/xray/isp)
+#CITY=$(cat /etc/xray/city)
+echo ""
+clear
+function bot(){
+grenbo="\e[92;1m"
+BG_BLU="\033[44;1m" # BG BIRU
+BlueCyan='\e[5;36m'
+Xark='\e[0m'
+GREN="\033[0;32m"
+#install
+clear
+history -c 
+rm -fr xbot.sh
+rm -fr /usr/bin/kyt
+rm -fr /usr/bin/xdbot.zip*
+#color
+BG_BLU="\033[44;1m" # BG BIRU
+BlueCyan='\e[5;36m'
+Xark='\e[0m'
+GREN="\033[0;32m"
+u="\033[1;36m"
+y="\033[1;93m"
+g="\033[1;92m"
+r="\033[1;91m"
+
+REPO="https://raw.githubusercontent.com/diah082/vip/main/bot/"
+domain=$(cat /etc/xray/domain)
+#install
+apt update && apt upgrade
+apt install neofetch -y
+apt install python3 python3-pip git
+cd /usr/bin
+wget -q -O bot.zip "${REPO}bot.zip"
+unzip bot.zip
+mv bot/* /usr/bin
+chmod +x /usr/bin/*
+rm -rf bot.zip
+clear
+wget -q -O xdbot.zip "${REPO}xbot.zip"
+unzip xdbot.zip
+pip3 install -r kyt/requirements.txt
+
+clear
+echo ""
+figlet 'NEWBIE VPN' | lolcat
+echo -e "$u ┌────────────────────────────────────────────────┐\e[0m"
+echo -e "$u │ \e[1;97;101m                ADD BOT PANEL                 \e[0m ${u}│\e[0m"
+echo -e "$u └────────────────────────────────────────────────┘\e[0m"
+echo -e "$u ┌────────────────────────────────────────────────┐\e[0m"
+echo -e "$u │ ${g}Tutorial Creat Bot and ID Telegram                   \e[0m"
+echo -e "$u │ ${g}Creat Bot and Token Bot : @BotFather                 \e[0m"
+echo -e "$u │ ${g}Info Id Telegram : @MissRose_bot perintah /info      \e[0m"
+echo -e "$u └────────────────────────────────────────────────┘\e[0m"
+echo -e ""
+read -e -p "  [*] Input your Bot Token : " bottoken
+read -e -p "  [*] Input Your Id Telegram : " admin
+echo -e BOT_TOKEN='"'$bottoken'"' >> /usr/bin/kyt/var.txt
+echo -e ADMIN='"'$admin'"' >> /usr/bin/kyt/var.txt
+echo -e DOMAIN='"'$domain'"' >> /usr/bin/kyt/var.txt
+echo -e PUB='"'$PUB'"' >> /usr/bin/kyt/var.txt
+echo -e HOST='"'$NS'"' >> /usr/bin/kyt/var.txt
+clear
+
+if [ -e /etc/systemd/system/xbot.service ]; then
+echo ""
+else
+rm -fr /etc/systemd/system/xbot.service
+fi
+
+cat > /etc/systemd/system/xbot.service << END
+[Unit]
+Description=Simple Bot Tele By - @newbie_store
+After=network.target
+
+[Service]
+WorkingDirectory=/usr/bin
+ExecStart=/usr/bin/python3 -m kyt
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+END
+
+systemctl daemon-reload
+systemctl start xbot
+systemctl enable xbot
+systemctl restart xbot
+cd
+
+# // STATUS SERVICE BOT
+bot_service=$(systemctl status xbot | grep active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
+if [[ $bot_service == "running" ]]; then 
+   sts_bot="${g}[ON]\e[0m"
+else
+   sts_bot="${r}[OFF]\e[0m"
+fi
+
+rm -fr /usr/bin/bot.zip
+rm -fr /usr/bin/xdbot.zip
+clear
+neofetch
+echo -e "  ${y} Your Data BOT Info"
+echo -e "  ${u}┌───────────────────────────────────┐\e[0m"
+echo -e "  ${u}│$r Status BOT ${y}=\e[0m $sts_bot "
+echo -e "  ${u}│$r Token BOT  ${y}=\e[0m $bottoken "
+echo -e "  ${u}│$r Admin ID   ${y}=\e[0m $admin "
+echo -e "  ${u}│$r Domain     ${y}=\e[0m $domain "
+echo -e "  ${u}└───────────────────────────────────┘\e[0m"
+echo -e ""
+history -c
+read -p "  Press [ Enter ] to back on menu"
+menu
+}
+######################################
+green="\033[0;32m"
+red="\033[1;31m"
+yellow="\033[0;33m"
+# // Gettings Info
+function upp(){
+clear
+cd /usr/local/
+rm -rf sbin
+rm -rf /usr/bin/enc
+cd
+mkdir /usr/local/sbin
+dateFromServer=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
+biji=`date +"%Y-%m-%d" -d "$dateFromServer"`
+red() { echo -e "\\033[32;1m${*}\\033[0m"; }
+clear
+fun_bar() {
+    CMD[0]="$1"
+    CMD[1]="$2"
+    (
+        [[ -e $HOME/fim ]] && rm $HOME/fim
+        ${CMD[0]} -y >/dev/null 2>&1
+        ${CMD[1]} -y >/dev/null 2>&1
+        touch $HOME/fim
+    ) >/dev/null 2>&1 &
+    tput civis
+    echo -ne "  \033[0;33mPlease Wait Loading \033[1;37m- \033[0;33m["
+    while true; do
+        for ((i = 0; i < 18; i++)); do
+            echo -ne "\033[0;32m# "
+            sleep 0.1s
+        done
+        [[ -e $HOME/fim ]] && rm $HOME/fim && break
+        echo -e "\033[0;33m]"
+        sleep 1s
+        tput cuu1
+        tput dl1
+        echo -ne "  \033[0;33mPlease Wait Loading \033[1;37m- \033[0;33m["
+    done
+    echo -e "\033[0;33m]\033[1;37m -\033[0;32m OK !\033[1;37m"
+    tput cnorm
+}
+res1() {
+    wget https://raw.githubusercontent.com/diah082/vip/main/menu.zip
+    unzip menu.zip
+    chmod +x menu/*
+    mv menu/* /usr/local/sbin
+    rm -rf /etc/crontab
+    rm -rf menu
+    rm -rf menu.zip
+    rm -rf update.sh
+    rm -rf update
+    rm -rf /root/menu
+    rm -rf /root/menu.zip
+    rm -rf /root/update.sh
+    rm -rf /root/welcome
+    rm -rf /root/change-limit-xray
+    rm -rf /root/change-ip-limit
+    rm -rf /root/change-domain
+    rm -rf /root/fixhap
+    rm -rf /root/fixcert
+    rm -rf /root/xtra-menu
+    rm -rf /root/others
+    rm -rf /root/manager
+    rm -rf /root/m-ftr
+    rm -rf /root/m-bkp
+    rm -rf /root/m-bot
+    rm -rf /root/m-ssh
+    rm -rf /root/m-ssr
+    rm -rf /root/m-xray
+    rm -rf /root/m-tro
+    rm -rf /root/mbot
+    rm -rf /root/m-panel
+    rm -rf /root/add-bot-notif
+    rm -rf /root/add-ip
+    rm -rf /root/add-ssh
+    rm -rf /root/add-vme
+    rm -rf /root/add-vle
+    rm -rf /root/add-ssr    
+    rm -rf /root/auto-kill
+    rm -rf /root/autobackup
+    rm -rf /root/autoreboot
+    rm -rf /root/clearcache
+    rm -rf /root/clearlog
+    rm -rf /root/backup
+    rm -rf /root/restore
+    rm -rf /root/cek-ssh
+    rm -rf /root/cek-ssr
+    rm -rf /root/cek-vle
+    rm -rf /root/cek-vme
+    rm -rf /root/cek-tro
+    rm -rf /root/member-ssh
+    rm -rf /root/member-vme
+    rm -rf /root/member-vle
+    rm -rf /root/member-tro
+    rm -rf /root/membee-ssr
+    rm -rf /root/user-ssh
+    rm -rf /root/user-ssr
+    rm -rf /root/user-vme
+    rm -rf /root/user-vle
+    rm -rf /root/user-tro
+    rm -rf /root/renew-ssh
+    rm -rf /root/renew-ssr
+    rm -rf /root/renew-vme
+    rm -rf /root/renew-vle
+    rm -rf /root/renew-tro
+    rm -rf /root/trial-ssh
+    rm -rf /root/trial-vle
+    rm -rf /root/trial-ssr
+    rm -rf /root/trial-vme
+    rm -rf /root/trial-tro
+    rm -rf /root/delexp
+    rm -rf /root/xp
+    rm -rf /root/member
+    rm -rf /root/tendang
+    rm -rf /root/speedtest
+    rm -rf /root/run
+    rm -rf /root/reset
+    rm -rf /root/gotop
+    rm -rf /root/prot
+    rm -rf /root/mullog
+    rm -rf /root/Lt-on-off
+    rm -rf /root/limitspeed
+    rm -rf /root/limitssh-ip
+    rm -rf /root/lock-vmess
+    rm -rf /root/lock-xray-ip
+    rm -rf /root/lock
+    rm -rf /root/unlock
+    rm -rf /root/ganti-ip-ssh
+    rm -rf /root/ganti-ip-vmess
+    rm -rf /root/ganti-ip-vless
+    rm -rf /root/ganti-ip-trojan
+    rm -rf /root/del-ssh
+    rm -rf /root/del-vme
+    rm -rf /root/del-vle
+    rm -rf /root/del-ssr
+    rm -rf /root/del-tro
+    rm -rf /root/create-bot-notif
+    rm -rf /root/hapus-bot-notif
+    rm -rf /root/ceklim
+    rm -rf /root/m-noob
+    wget https://raw.githubusercontent.com/diah082/vip/main/files/crontap
+    mv crontap /etc/crontab
+}
+netfilter-persistent
+clear
+echo -e "\033[1;36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e " \e[41;1m             UPDATE SCRIPT                \e[0m"
+echo -e "\033[1;36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e ""
+echo -e "  \033[1;91mupdate script service\033[1;37m"
+fun_bar 'res1'
+echo -e "\033[1;36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e ""
+echo -e "\033[0;32mAnda akan di arahkan ke menu dalam 5 dtk..\033[0m"
+sleep 5
+menu
+}
+# // GETTINGS SYSTEM
+#uptime="$(uptime -p | cut -d " " -f 2-10)"
+cpu_usage1="$(ps aux | awk 'BEGIN {sum=0} {sum+=$3}; END {print sum}')"
+cpu_usage="$((${cpu_usage1/\.*} / ${coREDiilik:-1}))"
+#cpu_usage+=" %"
+#WKT=$(curl -s ipinfo.io/timezone )
+#DAY=$(date +%A)
+#DATE=$(date +%m/%d/%Y)
+#DATE2=$(date -R | cut -d " " -f -5)
+#IPVPS=$(curl -s ipinfo.io/ip )
+#cname=$( awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo )
+#cores=$( awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo )
+#freq=$( awk -F: ' /cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo )
+#tram=$( free -m | awk 'NR==2 {print $2}' )
+#uram=$( free -m | awk 'NR==2 {print $3}' )
+#domain=$(cat /etc/xray/domain)
+#RAM=$(free -m | awk 'NR==2 {print $2}')
+#USAGERAM=$(free -m | awk 'NR==2 {print $3}')
+#MEMOFREE=$(printf '%-1s' "$(free -m | awk 'NR==2{printf "%.2f%%", $3*100/$2 }')")
+#LOADCPU=$(printf '%-0.00001s' "$(top -bn1 | awk '/Cpu/ { cpu = "" 100 - $8 "%" }; END { print cpu }')")
+#MODEL=$(cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g')
+#CORE=$(printf '%-1s' "$(grep -c cpu[0-9] /proc/stat)")
+#DATEVPS=$(date +'%d/%m/%Y')
+#TIMEZONE=$(printf '%(%H:%M:%S)T')
+#SERONLINE=$(uptime -p | cut -d " " -f 2-10000)
+#fram=$( free -m | awk 'NR==2 {print $4}' )
+######################################
+# // USERNAME IZIN IPP
+rm -f /usr/bin/user
+username=$(curl -sS https://raw.githubusercontent.com/diah082/vip/main/izin | grep $MYIP | awk '{print $2}')
+echo "$username" >/usr/bin/user
+rm -f /usr/bin/e
+valid=$(curl -sS https://raw.githubusercontent.com/diah082/vip/main/izin | grep $MYIP | awk '{print $3}')
+echo "$valid" > /usr/bin/e
+######################################
+# // DETAIL ORDER IZIN IP
+username=$(cat /usr/bin/user)
+#oid=$(cat /usr/bin/ver)
+exp=$(cat /usr/bin/e)
+######################################
+clear
+# // DAYS LEFT
+d1=$(date -d "$valid" +%s)
+d2=$(date -d "$today" +%s)
+certifacate=$(((d1 - d2) / 86400))
+######################################
+# // VPS INFORMATION
+DATE=$(date +'%Y-%m-%d')
+datediff() {
+    d1=$(date -d "$1" +%s)
+    d2=$(date -d "$2" +%s)
+    echo -e "$COLOR1 \e[0m Expiry In   : $(( (d1 - d2) / 86400 )) Days"
+}
+mai="datediff "$Exp" "$DATE""
+######################################
+# // AKTIVATED & EXPIRED
+Info="\033[0;32mACTIVED\033[0m"
+Eror="\033[91mEXPIRED\033[0m"
+today=`date -d "0 days" +"%Y-%m-%d"`
+Exp1=$(curl -sS https://raw.githubusercontent.com/diah082/vip/main/izin | grep $MYIP | awk '{print $3}')
+if [[ $today < $Exp1 ]]; then
+sts="${Info}"
+else
+sts="${Eror}"
+fi
+######################################
+#echo -e "\e[32mloading...\e[0m"
+clear
+ssh_service=$(/etc/init.d/ssh status | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
+dropbear_service=$(/etc/init.d/dropbear status | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
+haproxy_service=$(systemctl status haproxy | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
+xray_service=$(systemctl status xray | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
+nginx_service=$(systemctl status nginx | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
+
+clear
+
+######################################
+# // RUNNING SSH
+######################################
+if [[ $ssh_service == "running" ]]; then 
+   status_ssh="\e[1;93mON\e[0m"
+else
+   status_ssh="${red}OFF\e[0m "
+fi
+######################################
+# // RUNNING WEBSOCKET
+######################################
+ssh_ws=$( systemctl status ws | grep Active | awk '{print $3}' | sed 's/(//g' | sed 's/)//g' )
+if [[ $ssh_ws == "running" ]]; then
+    status_ws_epro="\e[1;93mON\e[0m"
+else
+    status_ws_epro="${red}OFF\e[0m "
+fi
+######################################
+# RUNNING HAPROXY
+######################################
+if [[ $haproxy_service == "running" ]]; then 
+   status_haproxy="\e[1;93mON\e[0m"
+else
+   status_haproxy="${red}OFF\e[0m "
+fi
+######################################
+# RUNNING XRAY
+######################################
+if [[ $xray_service == "running" ]]; then 
+   status_xray="\e[1;93mON\e[0m"
+else
+   status_xray="${red}OFF\e[0m "
+fi
+######################################
+# RUNNING NGINX
+######################################
+if [[ $nginx_service == "running" ]]; then 
+   status_nginx="\e[1;93mON\e[0m"
+else
+   status_nginx="${red}OFF\e[0m "
+fi
+######################################
+# RUNNING DROPBEAR
+######################################
+if [[ $dropbear_service == "running" ]]; then 
+   status_dropbear="${green}GOOD\e[0m"
+else
+   status_dropbear="${red}ERORR\e[0m "
+fi
+
+######################################
+
+######################################
+
+# \\ Vless account //
+vlx=$(grep -c -E "^#& " "/etc/xray/config.json")
+let vla=$vlx/2
+# \\ Vmess account //
+vmc=$(grep -c -E "^### " "/etc/xray/config.json")
+let vma=$vmc/2
+# \\ Trojan account //
+ssh1="$(awk -F: '$3 >= 1000 && $1 != "nobody" {print $1}' /etc/passwd | wc -l)"
+trx=$(grep -c -E "^#! " "/etc/xray/config.json")
+let trb=$trx/2
+# \\ shadowsocks account //
+ssx=$(grep -c -E "^#!# " "/etc/xray/config.json")
+let ssa=$ssx/2
+######################################
+# // ───>>> BACKGROUND
+#BG_GRN="\033[42;1m" # BG HIJAU
+#BG_RED="\033[45;1m" # BG MERAH
+#BG_CYN="\033[46;1m" # BG CYANN
+#BG_BLU="\033[44;1m" # BG BIRU
+#BG_PUR="\033[43;1m" # BG KUNING
+#BG_YEL="\033[93;1m" # BG konengWaduk
+#BG_WHT="\033[47;1m" # BG PUTIH
+#BG_RED="\033[41;97;1m" # BG MERAH
+#GREN="\033[0;32m"
+# // ───>>> COLOR VALIDATIONS
+#TZ="\033[1;35m___\033[1;34m___\033[0;32m___\033[1;36m___\033[1;37m___\033[1;34m"
+vers="3.1 LTS"
+# // ───>>> COLOR VALIDATIONS
+clear
+echo -e " \e[1;96m ┌─────────────────────────────────────────────────┐\e[0m"
+echo -e " \e[1;96m │ \e[41;1m                 NEWBIE STORE                  \e[0m \e[1;96m│\e[0m"
+echo -e " \e[1;96m └─────────────────────────────────────────────────┘\e[0m"
+echo -e " \e[1;96m ┌─────────────────────────────────────────────────┐\e[0m"
+echo -e " \e[1;96m │\e[0m \e[0m OS \e[0m            :\e[0m $(cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g')\e[0m"
+echo -e " \e[1;96m │\e[0m \e[0m RAM \e[0m           :\e[0m $( free -m | awk 'NR==2 {print $3}' )/$(free -m | awk 'NR==2 {print $2}') MB \e[0m"
+echo -e " \e[1;96m │\e[0m \e[0m CITY \e[0m          :\e[0m $(cat /etc/xray/city)\e[0m"
+echo -e " \e[1;96m │\e[0m \e[0m ISP \e[0m           :\e[0m $(cat /etc/xray/isp)\e[0m"
+echo -e " \e[1;96m │\e[0m \e[0m IP \e[0m            :\e[0m $(curl -s ipinfo.io/ip )\e[0m"
+echo -e " \e[1;96m │\e[0m \e[0m DOMAIN \e[0m        :\e[0m $(cat /etc/xray/domain)\e[0m"
+echo -e " \e[1;96m │\e[0m \e[0m CPU USAGE \e[0m     :\e[0m $((${cpu_usage1/\.*} / ${coREDiilik:-1})) % \e[0m"
+echo -e " \e[1;96m └─────────────────────────────────────────────────┘\e[0m"
+echo -e " \e[1;96m ┌─────────────────────────────────────────────────┐\e[0m "
+echo -e " \e[1;96m │\e[0m PROXY \e[0m  $status_haproxy  \e[0m\e[1;96m│\e[0m NGINX  \e[0m $status_nginx  \e[0m\e[1;96m│\e[0m SSHWS  \e[0m $status_ws_epro \e[0m\e[1;96m│\e[0m $status_dropbear   \e[1;96m│ \e[0m "
+echo -e " \e[1;96m └─────────────────────────────────────────────────┘\e[0m "
+echo -e " \e[1;96m     ┌──────────────────────────────────────────┐\e[0m"
+echo -e " \e[1;96m     │\e[0m Version       \e[0m     :\e[0m ${vers}"
+echo -e " \e[1;96m     │\e[0m Order By      \e[0m     :\e[0m \e[1;93mNEWBIE STORE\e[0m "
+echo -e " \e[1;96m     │\e[0m Client Name   \e[0m     :\e[0m \e[1;93m$(cat /usr/bin/user)\e[0m "
+echo -e " \e[1;96m     │\e[0m Expiry In  \e[0m        :\e[0m \e[1;93m$(((d1 - d2) / 86400)) Days\e[0m "
+echo -e " \e[1;96m     └──────────────────────────────────────────┘\e[0m"
+echo -e " \e[1;96m ┌─────────────────────────────────────────────────┐\e[0m"
+echo -e " \e[1;96m  \e[0m \e[1;94m1.)\e[0m \e[1;93m☞ \e[0m\e[0m SSH/OPENVPN\e[0m    \e[1;94m6.)\e[0m \e[1;93m☞ \e[0m\e[0m FEATURES          \e[0m\e[1;96m \e[0m" 
+echo -e " \e[1;96m │\e[0m \e[1;94m2.)\e[0m \e[1;93m☞ \e[0m\e[0m XRAY\e[0m           \e[1;94m7.)\e[0m \e[1;93m☞ \e[0m\e[0m BASE64 NOOBVPN    \e[0m\e[1;96m │\e[0m"    
+echo -e " \e[1;96m  \e[0m \e[1;94m3.)\e[0m \e[1;93m☞ \e[0m\e[0m TROJAN\e[0m         \e[1;94m8.)\e[0m \e[1;93m☞ \e[0m\e[0m BACKUP / RESTORE  \e[0m\e[1;96m\e[0m"  
+echo -e " \e[1;96m │\e[0m \e[1;94m4.)\e[0m \e[1;93m☞ \e[0m\e[0m SS-R\e[0m           \e[1;94m9.)\e[0m \e[1;93m☞ \e[0m\e[0m BOT (AUTOBACKUP)  \e[0m\e[1;96m │\e[0m"
+echo -e " \e[1;96m  \e[0m \e[1;94m5.)\e[0m \e[1;93m☞ \e[0m\e[0m BOT TELE\e[0m       \e[1;94mx.)\e[0m \e[1;93m☞ \e[0m\e[0m EXIT              \e[0m\e[1;96m \e[0m"
+echo -e " \e[1;96m └─────────────────────────────────────────────────┘\e[0m"
+echo
+read -p "  Select From Options [1-9 or x] :  " wZtXtQ
+echo -e ""
+case $wZtXtQ in
+1) clear ; m-ssh ;;
+2) clear ; m-xray ;;
+3) clear ; m-tro  ;;
+4) clear ; m-ssr  ;;
+5) clear ; bot ;;
+6) clear ; m-ftr ;;
+7) clear ; m-noob ;;
+8) clear ; m-bkp ;;
+9) clear ; mbot ;;
+x) clear ; welcome ;;
+*) clear ; menu ;;
+esac
