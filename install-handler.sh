@@ -21,7 +21,7 @@ chmod +x /root/Install.sh
 LOG_FILE="/root/log_install_${NAMA}.log"
 
 # Jalankan script dalam screen dari dalam VPS
-screen -dmS install_${NAMA} "/root/Install.sh ${NAMA} ${DOMAIN} | tee ${LOG_FILE}"
+screen -dmS install_${nama} bash -c "/root/Install.sh ${nama} ${domain} | tee /root/log_install_${nama}.log"
 echo "✅ Proses instalasi untuk $NAMA dimulai di screen: install_${NAMA}"
 echo "ℹ️ Lihat log: screen -r install_${NAMA}  atau cek /root/log_install_${NAMA}.log"
 
