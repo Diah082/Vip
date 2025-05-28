@@ -2,7 +2,7 @@
 NAMA=$1
 DOMAIN=$2
 LOGFILE="/root/log_install_${NAMA}.log"
-apt install -y screen jq speedtest-cli wget curl 
+apt install -y screen jq speedtest-cli wget curl | tee ${LOG_FILE}
 if [[ ! -f /root/Install.sh ]]; then
     wget -q https://raw.githubusercontent.com/Diah082/vip/main/Install.sh -O /root/Install.sh
     chmod +x /root/Install.sh
