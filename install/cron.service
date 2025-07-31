@@ -5,7 +5,7 @@ After=remote-fs.target nss-user-lookup.target
 
 [Service]
 EnvironmentFile=-/etc/default/cron
-ExecStart=/usr/sbin/cron -f -P
+ExecStart=/usr/sbin/cron -f
 IgnoreSIGPIPE=false
 KillMode=control-group
 Restart=on-failure
