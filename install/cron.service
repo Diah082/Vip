@@ -1,0 +1,14 @@
+[Unit]
+Description=Regular background program processing daemon
+Documentation=man:cron(8)
+After=remote-fs.target nss-user-lookup.target
+
+[Service]
+EnvironmentFile=-/etc/default/cron
+ExecStart=/usr/sbin/cron -f -P
+IgnoreSIGPIPE=false
+KillMode=control-group
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
