@@ -20,7 +20,7 @@ fi
 # === Fungsi pengecekan izin IP (maks 3 menit / 36x percobaan @5s) ===
 cek_izin() {
     for ((i=1;i<=36;i++)); do
-        if curl -s "$IZIN_URL" | grep -qw "$IPVPS"; then
+        if wget -qO- "$IZIN_URL" | grep -wE "$IPVPS"; then
             echo "✅ IP $IPVPS ditemukan dalam daftar izin." | tee -a "$LOGFILE"
             return 0
         else
