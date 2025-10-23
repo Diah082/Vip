@@ -1,6 +1,6 @@
 [Unit]
 Description=Limit Usage Xray Service
-Documentation=FighterTunnel
+Documentation=https://t.me/newbie_store242
 After=syslog.target network-online.target
 
 [Service]
