@@ -57,10 +57,10 @@ while true; do
       if [[ ${usage} -gt ${limit} ]]; then
         total=$(con ${usage})
         total2=$(con ${limit})
-        uuid=$(grep -wE "^},{" "/etc/xray/config.json" | grep -w "\"${user}\"" | cut -d '"' -f 4)
-        exp=$(grep -wE "^#& $user" "/etc/xray/config.json" | awk '{print $3}')
-        sed -i '/#trojan$/a\#& '"$user $exp $uuid"'' /etc/xray/.lock.db
-        sed -i "/^#& $user $exp/,/^},{/d" /etc/xray/config.json
+        uuid=$(grep -wE "^},{" "/etc/xray/config.json" | grep -w "\"${user}\"" | cut -d '"' -f4 | uniq)
+        exp=$(grep -wE "^#! $user" "/etc/xray/config.json" | cut -d" " -f3 | sort -u)
+        sed -i '/#trojan$/a\#! '"$user $exp $uuid"'' /etc/xray/.lock.db
+        sed -i "/^#! $user $exp/,/^},{/d" /etc/xray/config.json
         send-log
         rm -f /etc/limit/trojan/${user}
         > /etc/trojan/${user}
