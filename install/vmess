@@ -84,8 +84,8 @@ while true; do
 #          echo "[DEBUG] Check ${user}: usage=${Usage} (${total}) / limit=${checkLimit} (${total2})"
 
           if [[ ${Usage} -gt ${checkLimit} ]]; then
-            uuid=$(grep -wE "^},{" /etc/xray/config.json | grep -w "\"${user}\"" | awk -F'"' '{print $4}' | uniq)
-            exp=$(grep -wE "^### $user" /etc/xray/config.json | awk '{print $3}' | sort -u)
+            uuid=$(grep -wE "^},{" /etc/xray/config.json | grep -w "\"${user}\"" | cut -d'"' -f4 | uniq)
+            exp=$(grep -wE "^### $user" /etc/xray/config.json | cut -d" " -f3 | sort -u)
 
             sed -i '/#vmess$/a\### '"$user $exp $uuid"'' /etc/xray/.lock.db
             sed -i "/^### $user $exp/,/^},{/d" /etc/xray/config.json
