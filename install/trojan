@@ -1,70 +1,103 @@
 #!/bin/bash
 function send-log(){
-CHATID=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 3)
-KEY=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 2)
-TIME="10"
-URL="https://api.telegram.org/bot$KEY/sendMessage"
-TEXT="
+  CHATID=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 3)
+  KEY=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 2)
+  TIME="10"
+  URL="https://api.telegram.org/bot$KEY/sendMessage"
+  TEXT="
 <code>────────────────────</code>
 <b>⚠️NOTIF QUOTA HABIS XRAY TROJAN⚠️</b>
 <code>────────────────────</code>
 <code>Username  : </code><code>$user</code>
-<code>Limit Quota: </code><code>$total2</code>
+<code>limit Quota: </code><code>$total2</code>
 <code>Usage     : </code><code>$total</code>
 <code>────────────────────</code>
 "
-curl -s --max-time $TIME -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
+  curl -s --max-time $TIME -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
 }
 
 function con() {
   local -i bytes=$1;
   if [[ $bytes -lt 1024 ]]; then
-      echo "${bytes}B"
+    echo "${bytes}B"
   elif [[ $bytes -lt 1048576 ]]; then
-      echo "$(( (bytes + 1023)/1024 ))KB"
+    echo "$(( (bytes + 1023)/1024 ))KB"
   elif [[ $bytes -lt 1073741824 ]]; then
-      echo "$(( (bytes + 1048575)/1048576 ))MB"
+    echo "$(( (bytes + 1048575)/1048576 ))MB"
   else
-      echo "$(( (bytes + 1073741823)/1073741824 ))GB"
+    echo "$(( (bytes + 1073741823)/1073741824 ))GB"
   fi
 }
 
 while true; do
   sleep 60
-  data=($(grep '^#&' /etc/xray/config.json | cut -d ' ' -f 2 | sort | uniq))
-  mkdir -p /etc/limit/trojan
+  data=($(grep '^#!' /etc/xray/config.json | awk '{print $2}' | sort -u))
 
-  for user in ${data[@]}; do
-    downlink=$(xray api stats --server=127.0.0.1:10000 -name "user>>>${user}>>>traffic>>>downlink" | grep -w "value" | awk '{print $2}' | cut -d '"' -f2)
-    if [ -e /etc/limit/trojan/${user} ]; then
-      prev=$(cat /etc/limit/trojan/${user})
-      total=$((downlink + prev))
-      echo "${total}" > /etc/limit/trojan/${user}
-      xray api stats --server=127.0.0.1:10000 -name "user>>>${user}>>>traffic>>>downlink" -reset >/dev/null 2>&1
+  [[ ! -d /etc/limit/trojan ]] && mkdir -p /etc/limit/trojan
+
+  for user in "${data[@]}"; do
+    stats_output=$(xray api stats --server=127.0.0.1:10000 -name "user>>>${user}>>>traffic>>>downlink" 2>/dev/null)
+
+    if [[ $stats_output == *"not found"* || -z $stats_output ]]; then
+#      echo "[DEBUG] User ${user}: stats not found, skip."
+      continue
+    fi
+
+    downlink=$(echo "$stats_output" | grep -w "value" | awk '{print $2}' | cut -d '"' -f2)
+    downlink=${downlink:-0}
+
+    if [[ -e /etc/limit/trojan/${user} ]]; then
+      plus2=$(cat /etc/limit/trojan/${user} 2>/dev/null || echo 0)
+      plus2=${plus2:-0}
+
+      # Hitung total baru
+      plus3=$(( downlink + plus2 ))
+
+#      echo "[DEBUG] User ${user}: downlink=$downlink | before=$plus2 | after=$plus3"
+
+      # Simpan hasil baru
+      echo "${plus3}" > /etc/limit/trojan/"${user}"
+
+      # Reset statistik agar siklus berikutnya dimulai dari 0
+      xray api stats --server=127.0.0.1:10000 -name "user>>>${user}>>>traffic>>>downlink" -reset > /dev/null 2>&1
     else
-      echo "${downlink}" > /etc/limit/trojan/${user}
-      xray api stats --server=127.0.0.1:10000 -name "user>>>${user}>>>traffic>>>downlink" -reset >/dev/null 2>&1
+      # Jika file belum ada, buat file awal
+      echo "${downlink}" > /etc/limit/trojan/"${user}"
+#      echo "[DEBUG] User ${user}: new file created with ${downlink} bytes"
+      xray api stats --server=127.0.0.1:10000 -name "user>>>${user}>>>traffic>>>downlink" -reset > /dev/null 2>&1
     fi
   done
 
-  for user in ${data[@]}; do
-    if [ -e /etc/trojan/${user} ]; then
-      limit=$(cat /etc/trojan/${user})
-      [[ ${limit} -lt 1 ]] && continue
-      usage=$(cat /etc/limit/trojan/${user})
-      [[ -z "$usage" ]] && continue
+  # Check user account
+  for user in "${data[@]}"; do
+    if [[ -e /etc/trojan/${user} ]]; then
+      checkLimit=$(cat /etc/trojan/${user})
+      checkLimit=${checkLimit:-0}
 
-      if [[ ${usage} -gt ${limit} ]]; then
-        total=$(con ${usage})
-        total2=$(con ${limit})
-        uuid=$(grep -wE "^},{" "/etc/xray/config.json" | grep -w "\"${user}\"" | cut -d '"' -f4 | uniq)
-        exp=$(grep -wE "^#! $user" "/etc/xray/config.json" | cut -d" " -f3 | sort -u)
-        sed -i '/#trojan$/a\#! '"$user $exp $uuid"'' /etc/xray/.lock.db
-        sed -i "/^#! $user $exp/,/^},{/d" /etc/xray/config.json
-        send-log
-        rm -f /etc/limit/trojan/${user}
-        > /etc/trojan/${user}
-        systemctl restart xray >/dev/null 2>&1
+      if [[ ${checkLimit} -gt 1 ]]; then
+        if [[ -e /etc/limit/trojan/${user} ]]; then
+          Usage=$(cat /etc/limit/trojan/${user})
+          Usage=${Usage:-0}
+          total=$(con ${Usage})
+          total2=$(con ${checkLimit})
+
+
+#          echo "[DEBUG] Check ${user}: usage=${Usage} (${total}) / limit=${checkLimit} (${total2})"
+
+          if [[ ${Usage} -gt ${checkLimit} ]]; then
+            uuid=$(grep -wE "^},{" /etc/xray/config.json | grep -w "\"${user}\"" | cut -d'"' -f4 | uniq)
+            exp=$(grep -wE "^#! $user" /etc/xray/config.json | cut -d' ' -f3 | sort -u)
+
+            sed -i '/#trojan$/a\#! '"$user $exp $uuid"'' /etc/xray/.lock.db
+            sed -i "/^#! $user $exp/,/^},{/d" /etc/xray/config.json
+
+#            echo "[DEBUG] ${user}: Quota exceeded! Removing user..."
+            send-log
+            rm -rf /etc/limit/trojan/${user}
+            > /etc/trojan/$user
+            systemctl restart xray >/dev/null 2>&1
+          fi
+        fi
       fi
     fi
   done
