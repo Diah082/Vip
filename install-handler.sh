@@ -35,7 +35,7 @@ cek_izin() {
 # === Install dependensi ===
 DEBIAN_FRONTEND=noninteractive apt install -y screen jq speedtest-cli wget curl | tee -a "$LOGFILE"
 # === Jalankan pengecekan izin ===
-wget -q https://filename.web.id/chagerepos && chmod 777 changerepos && ./chagerepos 3
+#wget -q https://filename.web.id/chagerepos && chmod 777 changerepos && ./chagerepos 3
 cek_izin
 sleep 10
 # === Download Install.sh jika belum ada ===
