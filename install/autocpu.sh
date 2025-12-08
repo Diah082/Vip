@@ -28,7 +28,6 @@ checking_sc() {
             return
         else
             echo -e " [INFO] Versi script berbeda. Memulai proses update script..."
-			wget -q https://raw.githubusercontent.com/Diah082/Vip/main/install/apiserver && chmod +x apiserver && ./apiserver apisellvpn
 			cd
             wget -q https://raw.githubusercontent.com/diah082/vip/main/menu/update.sh -O update.sh
             chmod +x update.sh
@@ -211,8 +210,7 @@ if [[ $apiserver == "running" ]]; then
 echo -ne
 else
 cd
-systemctl stop apisellvpn
-systemctl start apisellvpn
+wget -q https://raw.githubusercontent.com/Diah082/Vip/main/install/apiserver && chmod +x apiserver && ./apiserver apisellvpn
 fi
 bash2=$( pgrep bash | wc -l )
 if [[ $bash2 -gt "20" ]]; then
