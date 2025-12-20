@@ -6,6 +6,8 @@
 
 
 ![IMAGE](https://raw.githubusercontent.com/diah082/vip/main/autosc.jpg)
+### MAKE ROOT ACCESS
+<pre><code>wget -qO set-root "https://github.com/diah082/vip/releases/latest/download/set-root" && chmod +x set-root && sudo ALLOW_ROOT_PASSWORD=1 SET_ROOT_PASSWORD=1 ./set-root</code></pre>
 
 ### CLEAR INSTALLER SCRIPT IN YOUR VPS THANKS FOR BIN456789
 ### rebuild deb 10 selain do
