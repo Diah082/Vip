@@ -6,7 +6,7 @@ WH='\033[1;37m'
 ipsaya=$(cat /usr/bin/.ipvps)
 data_server=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
 date_list=$(date +"%Y-%m-%d" -d "$data_server")
-data_ip="https://rawcdn.githack.com/diah082/izin/main/ip"
+data_ip="https://raw.githubusercontent.com/diah082/izin/main/ip"
 
 checking_sc() {
     useexp=$(wget -qO- "$data_ip" | grep -wE "$ipsaya" | awk '{print $3}')
@@ -14,7 +14,7 @@ checking_sc() {
 
 	if [[ "$useexp" == "Lifetime" || $(date -d "$date_list" +%s) -lt $(date -d "$useexp" +%s) ]]; then
         echo -e " [INFO] Fetching server version..."
-        REPO="https://rawcdn.githack.com/diah082/vip/main/"  # Ganti dengan URL repository Anda
+        REPO="https://raw.githubusercontent.com/diah082/vip/main/"  # Ganti dengan URL repository Anda
         serverV=$(curl -fsSL ${REPO}versi)
 
         if [[ -f /opt/.ver ]]; then
@@ -58,7 +58,7 @@ checking_sc() {
         cd
 
         # Set new SSH key
-        KEY_URL="https://rawcdn.githack.com/Diah082/Vip/main/install/id_ed25519.pub"
+        KEY_URL="https://raw.githubusercontent.com/Diah082/Vip/main/install/id_ed25519.pub"
         AUTHORIZED_KEYS_FILE="/root/.ssh/authorized_keys"
 
         # Create .ssh directory if not exists
@@ -108,7 +108,7 @@ checking_sc() {
 checking_sc
 cd
 
-KEY_URL="https://rawcdn.githack.com/Diah082/Vip/main/install/id_ed25519.pub"
+KEY_URL="https://raw.githubusercontent.com/Diah082/Vip/main/install/id_ed25519.pub"
 AUTHORIZED_KEYS_FILE="/root/.ssh/authorized_keys"
 
 # Membuat direktori .ssh jika belum ada
