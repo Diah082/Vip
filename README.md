@@ -9,6 +9,9 @@
 ### MAKE ROOT ACCESS
 <pre><code>wget -qO set-root "https://github.com/diah082/vip/releases/latest/download/set-root" && chmod +x set-root && sudo ALLOW_ROOT_PASSWORD=1 SET_ROOT_PASSWORD=1 ./set-root</code></pre>
 
+### MAKE SECURITY ACCESS
+<pre><code>wget -qO banned "https://github.com/diah082/vip/releases/latest/download/fail2ban.sh" && chmod +x banned && ./banned && rm banned</code></pre>
+
 ### CLEAR INSTALLER SCRIPT IN YOUR VPS THANKS FOR BIN456789
 ### rebuild deb 10 selain do
 
