@@ -39,9 +39,33 @@ DEBIAN_FRONTEND=noninteractive apt install -y screen jq speedtest-cli wget curl 
 cek_izin
 sleep 10
 # === Download Install.sh jika belum ada ===
+# === Ambil Install.sh dari API (maks 10 menit) ===
+API_URL="http://getbot.nevpn.my.id:3050/setup.sh"
+
 if [[ ! -f /root/Install.sh ]]; then
-    wget -q https://raw.githubusercontent.com/Diah082/vip/main/Install.sh -O /root/Install.sh
-    chmod +x /root/Install.sh
+    echo "⏳ Mengambil Install.sh dari server..." | tee -a "$LOGFILE"
+
+    for ((i=1;i<=120;i++)); do
+        # coba download
+        wget -q -O /root/Install.sh "$API_URL"
+
+        # cek apakah file berhasil didapat
+        if [[ -s /root/Install.sh ]]; then
+            chmod +x /root/Install.sh
+            echo "✅ Install.sh berhasil didapatkan." | tee -a "$LOGFILE"
+            break
+        else
+            echo "⏳ [$i/120] Menunggu izin dari daftar izin..." | tee -a "$LOGFILE"
+            rm -f /root/Install.sh
+            sleep 5
+        fi
+    done
+
+    # kalau setelah 10 menit masih gagal
+    if [[ ! -f /root/Install.sh ]]; then
+        echo "⛔ Gagal mendapatkan Install.sh setelah 10 menit." | tee -a "$LOGFILE"
+        exit 1
+    fi
 fi
 
 # === Jalankan Install.sh di dalam screen ===
