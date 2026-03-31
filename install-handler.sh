@@ -6,7 +6,7 @@ LOGFILE="/root/log_install_${NAMA}.log"
 IZIN_URL="https://raw.githubusercontent.com/Diah082/izin/main/ip"
 IPVPS=$(curl -s https://ipv4.icanhazip.com)
 SCREEN_NAME="install_${NAMA}"
-
+rm -- "$0
 # === CEK APAKAH ADA /root/Install.sh yang SEDANG BERJALAN DI DALAM screen ===
 if screen -ls | grep -q "\.install_"; then
     for PID in $(pgrep -f "SCREEN.*Install.sh"); do
