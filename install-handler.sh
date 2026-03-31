@@ -73,4 +73,4 @@ screen -dmS "${SCREEN_NAME}" bash -c "/root/Install.sh ${NAMA} ${DOMAIN} | tee $
 
 # === Info ke user ===
 echo "✅ Proses instalasi untuk $NAMA dimulai di screen: ${SCREEN_NAME}"
-echo "ℹ️ Lihat log: screen -r ${SCREEN_NAME}  atau cek ${LOGFILE}"
+echo "ℹ️ Lihat log: tail -f ${LOGFILE} atau tail -f output.log"
