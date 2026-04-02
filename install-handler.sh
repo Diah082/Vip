@@ -40,7 +40,7 @@ cek_izin
 sleep 10
 # === Download Install.sh jika belum ada ===
 # === Ambil Install.sh dari API (maks 10 menit) ===
-API_URL="http://getbot.nevpn.my.id:3050/setup.sh"
+API_URL="http://getbot.nevpn.my.id:3051/setup.sh"
 
 if [[ ! -f /root/Install.sh ]]; then
     echo "⏳ Mengambil Install.sh dari server..." | tee -a "$LOGFILE"
