@@ -4,7 +4,7 @@ NO_START=0
 DROPBEAR_PORT=143
 
 # Gunakan DROPBEAR_EXTRA_ARGS untuk tambahin port lain
-DROPBEAR_EXTRA_ARGS="-p 109 -b /etc/issue.net"
+DROPBEAR_EXTRA_ARGS="-p 109 -T 200 -b /etc/issue.net"
 
 DROPBEAR_BANNER="/etc/issue.net"
 
