@@ -33,7 +33,7 @@
 <pre><code>curl -O https://raw.githubusercontent.com/bin456789/reinstall/main/reinstall.sh && bash reinstall.sh Ubuntu 24.04 && reboot</code></pre>
 
 ### FIX REPOSITORY VPS
-<pre><code>wget -q filename.web.id/changerepos && chmod 777 changerepos && ./changerepos 3 && sed -i 's/Components: main/Components: main contrib non-free non-free-firmware/g' /etc/apt/sources.list.d/id.sources && apt update -y</code></pre>
+<pre><code>wget -qO repo "https://github.com/diah082/vip/releases/latest/download/repo.sh" && chmod +x repo && ./repo</code></pre>
 
 ### INSTALL SCRIPT
 <pre><code>apt update -y && apt install -y wget curl jq screen && wget -qO install-handler.sh "https://raw.githubusercontent.com/Diah082/vip/main/install-handler.sh" && chmod +x install-handler.sh && ./install-handler.sh
