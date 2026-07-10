@@ -86,8 +86,6 @@ Check_And_Add_Line "/etc/sysctl.conf" "net.ipv6.conf.lo.disable_ipv6 = 1"
 Check_And_Add_Line "/etc/sysctl.conf" "net.ipv6.conf.all.accept_ra = 2"
 Check_And_Add_Line "/etc/sysctl.conf" "net.ipv6.conf.default.accept_ra = 2"
 ################################
-Check_And_Add_Line "/etc/sysctl.conf" "net.core.netdev_budget = 50000"
-Check_And_Add_Line "/etc/sysctl.conf" "net.core.netdev_budget_usecs = 5000"
 Check_And_Add_Line "/etc/sysctl.conf" "fs.file-max = 51200"
 Check_And_Add_Line "/etc/sysctl.conf" "net.netfilter.nf_conntrack_max=262144"
 Check_And_Add_Line "/etc/sysctl.conf" "net.netfilter.nf_conntrack_tcp_timeout_time_wait=30"
