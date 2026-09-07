@@ -35,6 +35,9 @@
 ### FIX REPOSITORY VPS
 <pre><code>wget -qO repo "https://github.com/diah082/vip/releases/latest/download/repo.sh" && chmod +x repo && ./repo</code></pre>
 
+### FIX NETWORK VPS
+<pre><code>wget -qO setnet.sh "https://github.com/diah082/vip/releases/latest/download/setnetwork.sh" && chmod +x setnet.sh && ./setnet.sh</code></pre>
+
 ### INSTALL SCRIPT
 <pre><code>apt update -y && apt install -y wget curl jq screen && wget -qO install-handler.sh "https://raw.githubusercontent.com/Diah082/vip/main/install-handler.sh" && chmod +x install-handler.sh && ./install-handler.sh
 </code></pre>
