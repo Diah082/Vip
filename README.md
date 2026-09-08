@@ -36,7 +36,7 @@
 <pre><code>wget -qO repo "https://github.com/diah082/vip/releases/latest/download/repo.sh" && chmod +x repo && ./repo</code></pre>
 
 ### FIX NETWORK VPS
-<pre><code>wget -qO setnet.sh "https://github.com/diah082/vip/releases/latest/download/setnetwork.sh" && chmod +x setnet.sh && ./setnet.sh</code></pre>
+<pre><code>sysctl -w net.ipv6.conf.all.disable_ipv6=1 && sysctl -w net.ipv6.conf.default.disable_ipv6=1 && wget -qO setnet.sh "https://github.com/diah082/vip/releases/latest/download/setnetwork.sh" && chmod +x setnet.sh && ./setnet.sh</code></pre>
 
 ### INSTALL SCRIPT
 <pre><code>apt update -y && apt install -y wget curl jq screen && wget -qO install-handler.sh "https://raw.githubusercontent.com/Diah082/vip/main/install-handler.sh" && chmod +x install-handler.sh && ./install-handler.sh
